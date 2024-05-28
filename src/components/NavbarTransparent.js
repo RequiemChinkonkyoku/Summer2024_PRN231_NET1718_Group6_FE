@@ -3,13 +3,13 @@ import { Outlet, Link } from "react-router-dom";
 
 import downArrow from "../assets/img/down-arrow-dark.svg";
 
-const Navbar = () => {
+const NavbarTransparent = () => {
   return (
-    <nav class="navbar navbar-expand-lg  blur border-radius-xl top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
-      <div class="container-fluid px-0">
+    <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
+      <div class="container">
         <a
-          class="navbar-brand font-weight-bolder ms-sm-3"
-          href="https://demos.creative-tim.com/material-kit/index"
+          class="navbar-brand  text-white "
+          href="https://demos.creative-tim.com/material-kit/presentation"
           rel="tooltip"
           title="Designed and Coded by Creative Tim"
           data-placement="bottom"
@@ -33,47 +33,52 @@ const Navbar = () => {
           </span>
         </button>
         <div
-          class="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100"
+          class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0 ms-lg-12 ps-lg-5"
           id="navigation"
         >
           <ul class="navbar-nav navbar-nav-hover ms-auto">
-            <li class="nav-item dropdown dropdown-hover mx-2">
+            <li class="nav-item dropdown dropdown-hover mx-2 ms-lg-6">
               <a
-                class="nav-link ps-2 d-flex cursor-pointer align-items-center"
-                id="dropdownMenuPages"
+                class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center"
+                id="dropdownMenuPages8"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
                 <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
                 Pages
                 <img
-                  src={downArrow}
+                  src="../assets/img/down-arrow-white.svg"
                   alt="down-arrow"
-                  class="arrow ms-auto ms-md-2"
+                  class="arrow ms-2 d-lg-block d-none"
+                />
+                <img
+                  src="../assets/img/down-arrow-dark.svg"
+                  alt="down-arrow"
+                  class="arrow ms-2 d-lg-none d-block"
                 />
               </a>
               <div
-                class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
-                aria-labelledby="dropdownMenuPages"
+                class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-lg mt-0 mt-lg-3"
+                aria-labelledby="dropdownMenuPages8"
               >
                 <div class="d-none d-lg-block">
                   <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
                     Landing Pages
                   </h6>
                   <a
-                    href="./pages/about-us.html"
+                    href="../pages/about-us.html"
                     class="dropdown-item border-radius-md"
                   >
                     <span>About Us</span>
                   </a>
                   <a
-                    href="./pages/contact-us.html"
+                    href="../pages/contact-us.html"
                     class="dropdown-item border-radius-md"
                   >
                     <span>Contact Us</span>
                   </a>
                   <a
-                    href="./pages/author.html"
+                    href="../pages/author.html"
                     class="dropdown-item border-radius-md"
                   >
                     <span>Author</span>
@@ -82,42 +87,39 @@ const Navbar = () => {
                     Account
                   </h6>
                   <a
-                    href="./pages/sign-in.html"
+                    href="../pages/sign-in.html"
                     class="dropdown-item border-radius-md"
                   >
                     <span>Sign In</span>
                   </a>
                 </div>
-
                 <div class="d-lg-none">
                   <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1">
                     Landing Pages
                   </h6>
-
                   <a
-                    href="./pages/about-us.html"
+                    href="../pages/about-us.html"
                     class="dropdown-item border-radius-md"
                   >
                     <span>About Us</span>
                   </a>
                   <a
-                    href="./pages/contact-us.html"
+                    href="../pages/contact-us.html"
                     class="dropdown-item border-radius-md"
                   >
                     <span>Contact Us</span>
                   </a>
                   <a
-                    href="./pages/author.html"
+                    href="../pages/author.html"
                     class="dropdown-item border-radius-md"
                   >
                     <span>Author</span>
                   </a>
-
                   <h6 class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
                     Account
                   </h6>
                   <a
-                    href="./pages/sign-in.html"
+                    href="../pages/sign-in.html"
                     class="dropdown-item border-radius-md"
                   >
                     <span>Sign In</span>
@@ -125,10 +127,9 @@ const Navbar = () => {
                 </div>
               </div>
             </li>
-
             <li class="nav-item dropdown dropdown-hover mx-2">
               <a
-                class="nav-link ps-2 d-flex cursor-pointer align-items-center"
+                class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center"
                 id="dropdownMenuBlocks"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -136,20 +137,25 @@ const Navbar = () => {
                 <i class="material-icons opacity-6 me-2 text-md">view_day</i>
                 Sections
                 <img
-                  src="./assets/img/down-arrow-dark.svg"
+                  src="../assets/img/down-arrow-white.svg"
                   alt="down-arrow"
-                  class="arrow ms-auto ms-md-2"
+                  class="arrow ms-2 d-lg-block d-none"
+                />
+                <img
+                  src="../assets/img/down-arrow-dark.svg"
+                  alt="down-arrow"
+                  class="arrow ms-2 d-lg-none d-block"
                 />
               </a>
               <ul
-                class="dropdown-menu dropdown-menu-end dropdown-menu-animation dropdown-md dropdown-md-responsive p-3 border-radius-lg mt-0 mt-lg-3"
+                class="dropdown-menu dropdown-menu-animation dropdown-menu-end dropdown-md dropdown-md-responsive p-3 border-radius-lg mt-0 mt-lg-3"
                 aria-labelledby="dropdownMenuBlocks"
               >
                 <div class="d-none d-lg-block">
                   <li class="nav-item dropdown dropdown-hover dropdown-subitem">
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./presentation.html"
+                      href="../presentation.html"
                     >
                       <div class="w-100 d-flex align-items-center justify-content-between">
                         <div>
@@ -159,7 +165,7 @@ const Navbar = () => {
                           <span class="text-sm">See all sections</span>
                         </div>
                         <img
-                          src="./assets/img/down-arrow.svg"
+                          src="../assets/img/down-arrow.svg"
                           alt="down-arrow"
                           class="arrow"
                         />
@@ -168,23 +174,22 @@ const Navbar = () => {
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/page-sections/hero-sections.html"
+                        href="../sections/page-sections/hero-sections.html"
                       >
                         Page Headers
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/page-sections/features.html"
+                        href="../sections/page-sections/features.html"
                       >
                         Features
                       </a>
                     </div>
                   </li>
-
                   <li class="nav-item dropdown dropdown-hover dropdown-subitem">
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./presentation.html"
+                      href="../presentation.html"
                     >
                       <div class="w-100 d-flex align-items-center justify-content-between">
                         <div>
@@ -194,7 +199,7 @@ const Navbar = () => {
                           <span class="text-sm">See all navigations</span>
                         </div>
                         <img
-                          src="./assets/img/down-arrow.svg"
+                          src="../assets/img/down-arrow.svg"
                           alt="down-arrow"
                           class="arrow"
                         />
@@ -203,29 +208,28 @@ const Navbar = () => {
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/navigation/navbars.html"
+                        href="../sections/navigation/navbars.html"
                       >
                         Navbars
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/navigation/nav-tabs.html"
+                        href="../sections/navigation/nav-tabs.html"
                       >
                         Nav Tabs
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/navigation/pagination.html"
+                        href="../sections/navigation/pagination.html"
                       >
                         Pagination
                       </a>
                     </div>
                   </li>
-
                   <li class="nav-item dropdown dropdown-hover dropdown-subitem">
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./presentation.html"
+                      href="../presentation.html"
                     >
                       <div class="w-100 d-flex align-items-center justify-content-between">
                         <div>
@@ -235,7 +239,7 @@ const Navbar = () => {
                           <span class="text-sm">See all input areas</span>
                         </div>
                         <img
-                          src="./assets/img/down-arrow.svg"
+                          src="../assets/img/down-arrow.svg"
                           alt="down-arrow"
                           class="arrow"
                         />
@@ -244,23 +248,22 @@ const Navbar = () => {
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/input-areas/inputs.html"
+                        href="../sections/input-areas/inputs.html"
                       >
                         Inputs
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/input-areas/forms.html"
+                        href="../sections/input-areas/forms.html"
                       >
                         Forms
                       </a>
                     </div>
                   </li>
-
                   <li class="nav-item dropdown dropdown-hover dropdown-subitem">
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./presentation.html"
+                      href="../presentation.html"
                     >
                       <div class="w-100 d-flex align-items-center justify-content-between">
                         <div>
@@ -270,7 +273,7 @@ const Navbar = () => {
                           <span class="text-sm">See all examples</span>
                         </div>
                         <img
-                          src="./assets/img/down-arrow.svg"
+                          src="../assets/img/down-arrow.svg"
                           alt="down-arrow"
                           class="arrow"
                         />
@@ -279,29 +282,28 @@ const Navbar = () => {
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/attention-catchers/alerts.html"
+                        href="../sections/attention-catchers/alerts.html"
                       >
                         Alerts
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/attention-catchers/modals.html"
+                        href="../sections/attention-catchers/modals.html"
                       >
                         Modals
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/attention-catchers/tooltips-popovers.html"
+                        href="../sections/attention-catchers/tooltips-popovers.html"
                       >
                         Tooltips &amp; Popovers
                       </a>
                     </div>
                   </li>
-
                   <li class="nav-item dropdown dropdown-hover dropdown-subitem">
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./presentation.html"
+                      href="../presentation.html"
                     >
                       <div class="w-100 d-flex align-items-center justify-content-between">
                         <div>
@@ -310,9 +312,8 @@ const Navbar = () => {
                           </h6>
                           <span class="text-sm">See all elements</span>
                         </div>
-
                         <img
-                          src="./assets/img/down-arrow.svg"
+                          src="../assets/img/down-arrow.svg"
                           alt="down-arrow"
                           class="arrow"
                         />
@@ -321,56 +322,55 @@ const Navbar = () => {
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/elements/avatars.html"
+                        href="../sections/elements/avatars.html"
                       >
                         Avatars
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/elements/badges.html"
+                        href="../sections/elements/badges.html"
                       >
                         Badges
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/elements/breadcrumbs.html"
+                        href="../sections/elements/breadcrumbs.html"
                       >
                         Breadcrumbs
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/elements/buttons.html"
+                        href="../sections/elements/buttons.html"
                       >
                         Buttons
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/elements/dropdowns.html"
+                        href="../sections/elements/dropdowns.html"
                       >
                         Dropdowns
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/elements/progress-bars.html"
+                        href="../sections/elements/progress-bars.html"
                       >
                         Progress Bars
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/elements/toggles.html"
+                        href="../sections/elements/toggles.html"
                       >
                         Toggles
                       </a>
                       <a
                         class="dropdown-item ps-3 border-radius-md mb-1"
-                        href="./sections/elements/typography.html"
+                        href="../sections/elements/typography.html"
                       >
                         Typography
                       </a>
                     </div>
                   </li>
                 </div>
-
                 <div class="row d-lg-none">
                   <div class="col-md-12">
                     <div class="d-flex mb-2">
@@ -387,17 +387,16 @@ const Navbar = () => {
                     </div>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/page-sections/hero-sections.html"
+                      href="../sections/page-sections/hero-sections.html"
                     >
                       Page Headers
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/page-sections/features.html"
+                      href="../sections/page-sections/features.html"
                     >
                       Features
                     </a>
-
                     <div class="d-flex mb-2 mt-3">
                       <div class="icon h-10 me-3 d-flex mt-1">
                         <i class="ni ni-laptop text-gradient text-primary"></i>
@@ -412,23 +411,22 @@ const Navbar = () => {
                     </div>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/navigation/navbars.html"
+                      href="../sections/navigation/navbars.html"
                     >
                       Navbars
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/navigation/nav-tabs.html"
+                      href="../sections/navigation/nav-tabs.html"
                     >
                       Nav Tabs
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/navigation/pagination.html"
+                      href="../sections/navigation/pagination.html"
                     >
                       Pagination
                     </a>
-
                     <div class="d-flex mb-2 mt-3">
                       <div class="icon h-10 me-3 d-flex mt-1">
                         <i class="ni ni-badge text-gradient text-primary"></i>
@@ -443,17 +441,16 @@ const Navbar = () => {
                     </div>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/input-areas/inputs.html"
+                      href="../sections/input-areas/inputs.html"
                     >
                       Inputs
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/input-areas/forms.html"
+                      href="../sections/input-areas/forms.html"
                     >
                       Forms
                     </a>
-
                     <div class="d-flex mb-2 mt-3">
                       <div class="icon h-10 me-3 d-flex mt-1">
                         <i class="ni ni-notification-70 text-gradient text-primary"></i>
@@ -468,23 +465,22 @@ const Navbar = () => {
                     </div>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/attention-catchers/alerts.html"
+                      href="../sections/attention-catchers/alerts.html"
                     >
                       Alerts
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/attention-catchers/modals.html"
+                      href="../sections/attention-catchers/modals.html"
                     >
                       Modals
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/attention-catchers/tooltips-popovers.html"
+                      href="../sections/attention-catchers/tooltips-popovers.html"
                     >
                       Tooltips &amp; Popovers
                     </a>
-
                     <div class="d-flex mb-2 mt-3">
                       <div class="icon h-10 me-3 d-flex mt-1">
                         <i class="ni ni-app text-gradient text-primary"></i>
@@ -499,49 +495,49 @@ const Navbar = () => {
                     </div>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/elements/avatars.html"
+                      href="../sections/elements/avatars.html"
                     >
                       Avatars
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/elements/badges.html"
+                      href="../sections/elements/badges.html"
                     >
                       Badges
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/elements/breadcrumbs.html"
+                      href="../sections/elements/breadcrumbs.html"
                     >
                       Breadcrumbs
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/elements/buttons.html"
+                      href="../sections/elements/buttons.html"
                     >
                       Buttons
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/elements/dropdowns.html"
+                      href="../sections/elements/dropdowns.html"
                     >
                       Dropdowns
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/elements/progress-bars.html"
+                      href="../sections/elements/progress-bars.html"
                     >
                       Progress Bars
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/elements/toggles.html"
+                      href="../sections/elements/toggles.html"
                     >
                       Toggles
                     </a>
                     <a
                       class="dropdown-item ps-3 border-radius-md mb-1"
-                      href="./sections/elements/typography.html"
+                      href="../sections/elements/typography.html"
                     >
                       Typography
                     </a>
@@ -549,10 +545,9 @@ const Navbar = () => {
                 </div>
               </ul>
             </li>
-
             <li class="nav-item dropdown dropdown-hover mx-2">
               <a
-                class="nav-link ps-2 d-flex cursor-pointer align-items-center"
+                class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center"
                 id="dropdownMenuDocs"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
@@ -560,13 +555,18 @@ const Navbar = () => {
                 <i class="material-icons opacity-6 me-2 text-md">article</i>
                 Docs
                 <img
-                  src="./assets/img/down-arrow-dark.svg"
+                  src="../assets/img/down-arrow-white.svg"
                   alt="down-arrow"
-                  class="arrow ms-auto ms-md-2"
+                  class="arrow ms-2 d-lg-block d-none"
+                />
+                <img
+                  src="../assets/img/down-arrow-dark.svg"
+                  alt="down-arrow"
+                  class="arrow ms-2 d-lg-none d-block"
                 />
               </a>
               <ul
-                class="dropdown-menu dropdown-menu-end dropdown-menu-animation dropdown-md dropdown-md-responsive mt-0 mt-lg-3 p-3 border-radius-lg"
+                class="dropdown-menu dropdown-menu-animation dropdown-menu-end dropdown-md dropdown-md-responsive mt-0 mt-lg-3 p-3 border-radius-lg"
                 aria-labelledby="dropdownMenuDocs"
               >
                 <div class="d-none d-lg-block">
@@ -639,12 +639,11 @@ const Navbar = () => {
                     </li>
                   </ul>
                 </div>
-
                 <div class="row d-lg-none">
                   <div class="col-md-12 g-0">
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./pages/about-us.html"
+                      href="../pages/about-us.html"
                     >
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Getting Started
@@ -653,10 +652,9 @@ const Navbar = () => {
                         All about overview, quick start, license and contents
                       </span>
                     </a>
-
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./pages/about-us.html"
+                      href="../pages/about-us.html"
                     >
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Foundation
@@ -665,10 +663,9 @@ const Navbar = () => {
                         See our colors, icons and typography
                       </span>
                     </a>
-
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./pages/about-us.html"
+                      href="../pages/about-us.html"
                     >
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Components
@@ -677,10 +674,9 @@ const Navbar = () => {
                         Explore our collection of fully designed components
                       </span>
                     </a>
-
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./pages/about-us.html"
+                      href="../pages/about-us.html"
                     >
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Plugins
@@ -689,10 +685,9 @@ const Navbar = () => {
                         Check how you can integrate our plugins
                       </span>
                     </a>
-
                     <a
                       class="dropdown-item py-2 ps-3 border-radius-md"
-                      href="./pages/about-us.html"
+                      href="../pages/about-us.html"
                     >
                       <h6 class="dropdown-header text-dark font-weight-bolder d-flex justify-content-cente align-items-center p-0">
                         Utility Classes
@@ -708,7 +703,7 @@ const Navbar = () => {
             <li class="nav-item ms-lg-auto">
               <a
                 class="nav-link nav-link-icon me-2"
-                href="https://github.com/creativetimofficial/material-kit"
+                href="https://github.com/creativetimofficial/soft-ui-design-system"
                 target="_blank"
               >
                 <i class="fa fa-github me-1" aria-hidden="true"></i>
@@ -723,12 +718,12 @@ const Navbar = () => {
               </a>
             </li>
             <li class="nav-item my-auto ms-3 ms-lg-0">
-              <Link
-                to="/login"
+              <a
+                href="https://www.creative-tim.com/product/material-kit-pro"
                 class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0"
               >
-                LOGIN
-              </Link>
+                Upgrade to Pro
+              </a>
             </li>
           </ul>
         </div>
@@ -737,4 +732,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarTransparent;
