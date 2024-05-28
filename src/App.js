@@ -1,43 +1,25 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import logo from "./logo.svg";
-import "./App.css";
 import Sidebar from "./components/Sidebar";
 import DashboardHead from "./components/DashboardHead";
+import MainHead from "./components/MainHead";
 import Table from "./components/Table";
+import Navbar from "./components/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS
 import "./assets/css/nucleo-icons.css"; // Local CSS file for icons
 import "./assets/css/nucleo-svg.css"; // Local CSS file for SVGs
 import "./assets/css/material-dashboard.css"; // Local CSS for material dashboard
+import "./assets/css/material-kit.css";
 
-function App() {
+const App = () => {
   return (
     <div>
-      <DashboardHead />
-      <Sidebar />
-      <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <div class="container fluid py-4">
-          <div class="row">
-            <Table />
-          </div>
-        </div>
-      </main>
+      <MainHead />
+      <Navbar />
     </div>
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
   );
-}
+};
 
 export default App;
