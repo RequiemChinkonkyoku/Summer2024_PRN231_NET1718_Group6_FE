@@ -60,12 +60,12 @@ const Login = () => {
                   <div class="card-body">
                     <form role="form" class="text-start">
                       <div class="input-group input-group-outline my-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" />
+                        {/* <label class="form-label">Email</label> */}
+                        <input type="email" class="form-control" placeholder="Email" />
                       </div>
                       <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" class="form-control" />
+                        {/* <label class="form-label">Password</label> */}
+                        <input type="password" class="form-control" placeholder="Password" />
                       </div>
                       <div class="form-check form-check-info text-start ps-0">
                         <input
