@@ -1,7 +1,8 @@
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
 
-import downArrow from "../assets/img/down-arrow-dark.svg";
+import downArrowDark from "../assets/img/down-arrow-dark.svg";
+import downArrow from "../assets/img/down-arrow.svg";
 
 const Navbar = () => {
   return (
@@ -47,7 +48,7 @@ const Navbar = () => {
                 <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
                 Pages
                 <img
-                  src={downArrow}
+                  src={downArrowDark}
                   alt="down-arrow"
                   class="arrow ms-auto ms-md-2"
                 />
@@ -136,7 +137,7 @@ const Navbar = () => {
                 <i class="material-icons opacity-6 me-2 text-md">view_day</i>
                 Sections
                 <img
-                  src="./assets/img/down-arrow-dark.svg"
+                  src={downArrowDark}
                   alt="down-arrow"
                   class="arrow ms-auto ms-md-2"
                 />
@@ -158,11 +159,7 @@ const Navbar = () => {
                           </h6>
                           <span class="text-sm">See all sections</span>
                         </div>
-                        <img
-                          src="./assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -193,11 +190,7 @@ const Navbar = () => {
                           </h6>
                           <span class="text-sm">See all navigations</span>
                         </div>
-                        <img
-                          src="./assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -234,11 +227,7 @@ const Navbar = () => {
                           </h6>
                           <span class="text-sm">See all input areas</span>
                         </div>
-                        <img
-                          src="./assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -269,11 +258,7 @@ const Navbar = () => {
                           </h6>
                           <span class="text-sm">See all examples</span>
                         </div>
-                        <img
-                          src="./assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -311,11 +296,7 @@ const Navbar = () => {
                           <span class="text-sm">See all elements</span>
                         </div>
 
-                        <img
-                          src="./assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -560,7 +541,7 @@ const Navbar = () => {
                 <i class="material-icons opacity-6 me-2 text-md">article</i>
                 Docs
                 <img
-                  src="./assets/img/down-arrow-dark.svg"
+                  src={downArrowDark}
                   alt="down-arrow"
                   class="arrow ms-auto ms-md-2"
                 />
