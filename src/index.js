@@ -8,6 +8,7 @@ import MainHead from "./components/MainHead";
 import App from "./App";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import DentistDashboard from "./pages/DentistDashboard";
 
 const Main = () => {
   return (
@@ -20,6 +21,7 @@ const Main = () => {
           {/* <Route path="*" element={<NoPage />} /> */}
         </Route>
         <Route path="register" element={<Register />} />
+        <Route path="dentistDashboard" element={<DentistDashboard />} />
       </Routes>
     </BrowserRouter>
   );
