@@ -16,7 +16,7 @@ const DashboardHead = () => {
         href="../assets/img/apple-icon.png"
       />
       <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
-      <title>Material Dashboard 2 by Creative Tim</title>
+      <title>Arisu Dental Clinic</title>
       <link
         rel="stylesheet"
         type="text/css"

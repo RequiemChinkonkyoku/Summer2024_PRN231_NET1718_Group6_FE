@@ -1,22 +1,24 @@
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
 
-import downArrow from "../assets/img/down-arrow-dark.svg";
+import downArrowDark from "../assets/img/down-arrow-dark.svg";
+import downArrow from "../assets/img/down-arrow.svg";
+import downArrowWhite from "../assets/img/down-arrow-white.svg";
 
 const NavbarTransparent = () => {
   return (
     <nav class="navbar navbar-expand-lg position-absolute top-0 z-index-3 w-100 shadow-none my-3  navbar-transparent ">
       <div class="container">
-        <a
+        <Link
+          to="/"
           class="navbar-brand  text-white "
           href="https://demos.creative-tim.com/material-kit/presentation"
           rel="tooltip"
           title="Designed and Coded by Creative Tim"
           data-placement="bottom"
-          target="_blank"
         >
-          Material Kit 2
-        </a>
+          Arisu Dental Clinic
+        </Link>
         <button
           class="navbar-toggler shadow-none ms-2"
           type="button"
@@ -47,12 +49,12 @@ const NavbarTransparent = () => {
                 <i class="material-icons opacity-6 me-2 text-md">dashboard</i>
                 Pages
                 <img
-                  src="../assets/img/down-arrow-white.svg"
+                  src={downArrowWhite}
                   alt="down-arrow"
                   class="arrow ms-2 d-lg-block d-none"
                 />
                 <img
-                  src="../assets/img/down-arrow-dark.svg"
+                  src={downArrowDark}
                   alt="down-arrow"
                   class="arrow ms-2 d-lg-none d-block"
                 />
@@ -137,12 +139,12 @@ const NavbarTransparent = () => {
                 <i class="material-icons opacity-6 me-2 text-md">view_day</i>
                 Sections
                 <img
-                  src="../assets/img/down-arrow-white.svg"
+                  src={downArrowWhite}
                   alt="down-arrow"
                   class="arrow ms-2 d-lg-block d-none"
                 />
                 <img
-                  src="../assets/img/down-arrow-dark.svg"
+                  src={downArrowDark}
                   alt="down-arrow"
                   class="arrow ms-2 d-lg-none d-block"
                 />
@@ -164,11 +166,7 @@ const NavbarTransparent = () => {
                           </h6>
                           <span class="text-sm">See all sections</span>
                         </div>
-                        <img
-                          src="../assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -198,11 +196,7 @@ const NavbarTransparent = () => {
                           </h6>
                           <span class="text-sm">See all navigations</span>
                         </div>
-                        <img
-                          src="../assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -238,11 +232,7 @@ const NavbarTransparent = () => {
                           </h6>
                           <span class="text-sm">See all input areas</span>
                         </div>
-                        <img
-                          src="../assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -272,11 +262,7 @@ const NavbarTransparent = () => {
                           </h6>
                           <span class="text-sm">See all examples</span>
                         </div>
-                        <img
-                          src="../assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -312,11 +298,7 @@ const NavbarTransparent = () => {
                           </h6>
                           <span class="text-sm">See all elements</span>
                         </div>
-                        <img
-                          src="../assets/img/down-arrow.svg"
-                          alt="down-arrow"
-                          class="arrow"
-                        />
+                        <img src={downArrow} alt="down-arrow" class="arrow" />
                       </div>
                     </a>
                     <div class="dropdown-menu mt-0 py-3 px-2 mt-3">
@@ -555,12 +537,12 @@ const NavbarTransparent = () => {
                 <i class="material-icons opacity-6 me-2 text-md">article</i>
                 Docs
                 <img
-                  src="../assets/img/down-arrow-white.svg"
+                  src={downArrowWhite}
                   alt="down-arrow"
                   class="arrow ms-2 d-lg-block d-none"
                 />
                 <img
-                  src="../assets/img/down-arrow-dark.svg"
+                  src={downArrowDark}
                   alt="down-arrow"
                   class="arrow ms-2 d-lg-none d-block"
                 />
@@ -703,7 +685,7 @@ const NavbarTransparent = () => {
             <li class="nav-item ms-lg-auto">
               <a
                 class="nav-link nav-link-icon me-2"
-                href="https://github.com/creativetimofficial/soft-ui-design-system"
+                href="https://github.com/RequiemChinkonkyoku/Summer2024_PRN231_NET1718_Group6_FE.git"
                 target="_blank"
               >
                 <i class="fa fa-github me-1" aria-hidden="true"></i>
@@ -713,18 +695,35 @@ const NavbarTransparent = () => {
                   data-bs-placement="bottom"
                   data-bs-original-title="Star us on Github"
                 >
-                  Github
+                  FE
                 </p>
               </a>
             </li>
-            <li class="nav-item my-auto ms-3 ms-lg-0">
+            <li class="nav-item ms-lg-auto">
+              <a
+                class="nav-link nav-link-icon me-2"
+                href="https://github.com/RequiemChinkonkyoku/Summer2024_PRN231_NET1718_Group6_BE.git"
+                target="_blank"
+              >
+                <i class="fa fa-github me-1" aria-hidden="true"></i>
+                <p
+                  class="d-inline text-sm z-index-1 font-weight-bold"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  data-bs-original-title="Star us on Github"
+                >
+                  BE
+                </p>
+              </a>
+            </li>
+            {/* <li class="nav-item my-auto ms-3 ms-lg-0">
               <a
                 href="https://www.creative-tim.com/product/material-kit-pro"
                 class="btn btn-sm  bg-gradient-primary  mb-0 me-1 mt-2 mt-md-0"
               >
                 Upgrade to Pro
               </a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

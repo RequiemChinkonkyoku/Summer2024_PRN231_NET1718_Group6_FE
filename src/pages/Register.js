@@ -21,7 +21,7 @@ const Register = () => {
                 <div class="row">
                   <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
                     <div
-                      class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
+                      class="position-relative bg-gradient-info h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
                       style={{
                         backgroundImage:
                           "url(" +
@@ -75,7 +75,7 @@ const Register = () => {
                           <div class="text-center">
                             <button
                               type="button"
-                              class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0"
+                              class="btn btn-lg bg-gradient-info btn-lg w-100 mt-4 mb-0"
                             >
                               Register
                             </button>
@@ -87,7 +87,7 @@ const Register = () => {
                           Already have an account? <t />
                           <Link
                             to="/login"
-                            class="text-primary text-gradient font-weight-bold"
+                            class="text-info text-gradient font-weight-bold"
                           >
                             Log in
                           </Link>
