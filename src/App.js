@@ -129,7 +129,7 @@ const App = () => {
                         style={{
                           backgroundImage:
                             "url(" +
-                            "https://images.unsplash.com/photo-1569683795645-b62e50fbf103?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=987&amp;q=80" +
+                            "https://1.img-dpreview.com/files/p/TS560x560~forums/62803172/ae5fffae14814b88b8eb7551ef16ea84" +
                             ")",
                           backgroundSize: "cover",
                         }}
@@ -155,7 +155,7 @@ const App = () => {
                         style={{
                           backgroundImage:
                             "url(" +
-                            "https://images.unsplash.com/photo-1498889444388-e67ea62c464b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=1365&amp;q=80" +
+                            "https://st.hzcdn.com/simgs/pictures/landscapes/houzz-grasses-chanticleer-1-lowres-jpg-cyan-horticulture-img~6271516900e8a324_4-9742-1-55ffc7c.jpg" +
                             ")",
                           backgroundSize: "cover",
                         }}
