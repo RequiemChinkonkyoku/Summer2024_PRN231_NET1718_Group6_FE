@@ -19,7 +19,7 @@ const MainHead = () => {
         />
         <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
 
-        <title>Material Kit 2 by Creative Tim</title>
+        <title>Arisu Dental Clinic</title>
 
         <link
           rel="stylesheet"
