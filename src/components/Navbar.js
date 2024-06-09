@@ -685,40 +685,6 @@ const Navbar = () => {
                 </div>
               </ul>
             </li>
-            <li class="nav-item ms-lg-auto">
-              <a
-                class="nav-link nav-link-icon me-2"
-                href="https://github.com/RequiemChinkonkyoku/Summer2024_PRN231_NET1718_Group6_FE.git"
-                target="_blank"
-              >
-                <i class="fa fa-github me-1" aria-hidden="true"></i>
-                <p
-                  class="d-inline text-sm z-index-1 font-weight-bold"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-original-title="Star us on Github"
-                >
-                  FE
-                </p>
-              </a>
-            </li>
-            <li class="nav-item ms-lg-auto">
-              <a
-                class="nav-link nav-link-icon me-2"
-                href="https://github.com/RequiemChinkonkyoku/Summer2024_PRN231_NET1718_Group6_BE.git"
-                target="_blank"
-              >
-                <i class="fa fa-github me-1" aria-hidden="true"></i>
-                <p
-                  class="d-inline text-sm z-index-1 font-weight-bold"
-                  data-bs-toggle="tooltip"
-                  data-bs-placement="bottom"
-                  data-bs-original-title="Star us on Github"
-                >
-                  BE
-                </p>
-              </a>
-            </li>
             <li class="nav-item my-auto ms-3 ms-lg-0">
               <Link
                 to="/login"
