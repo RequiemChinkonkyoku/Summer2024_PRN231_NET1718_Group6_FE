@@ -3,7 +3,7 @@ import axios from "../axiosConfig"; // Adjust the path accordingly
 
 const CustomerServiceContext = createContext();
 
-const bookAppointment = async (
+export const bookAppointment = async (
   patientId,
   arrivalDate,
   timeSlot,
@@ -29,4 +29,21 @@ const bookAppointment = async (
   }
 };
 
-export default bookAppointment;
+export const usePatients = () => {
+  const [patients, setPatients] = React.useState([]);
+  const [selectedPatient, setSelectedPatient] = React.useState(null);
+  const [patientID, setPatientID] = React.useState("");
+
+  React.useEffect(() => {
+    axios.get("/Patient/get-all-patients").then((response) => {
+      setPatients(response.data);
+    });
+  }, []);
+};
+
+const customerService = {
+  bookAppointment,
+  usePatients,
+};
+
+export default customerService;

@@ -7,6 +7,8 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import DentistDashboard from "../pages/DentistDashboard";
 import CreateAppointment from "../pages/customer-pages/CreateAppointment";
+import CustomerAccount from "../pages/customer-pages/CustomerAccount";
+import CustomerPatients from "../pages/customer-pages/CustomerPatients";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -29,6 +31,9 @@ const AppRoutes = () => {
         <Route path="/" element={<ProtectedRoute roles={["Customer"]} />}>
           <Route path="create-appointment" element={<CreateAppointment />} />
         </Route>
+
+        <Route path="/customer-account" element={<CustomerAccount />} />
+        <Route path="/customer-patients" element={<CustomerPatients />} />
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
