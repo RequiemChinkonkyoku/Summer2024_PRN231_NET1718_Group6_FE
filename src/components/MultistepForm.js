@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
+import axios from "../axiosConfig";
 import "../assets/custom/multistepForm.css"; // Ensure you have the styles
 
-const MultiStepForm = () => {
+import Schedule from "./Schedule";
+
+const MultiStepForm = ({ id }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [steps, setSteps] = useState([]);
 
@@ -90,6 +93,28 @@ const MultiStepForm = () => {
     }
   };
 
+  const [patientId, setPatientID] = React.useState([]);
+  useEffect(() => {
+    setPatientID(id);
+  }, [id]);
+
+  const [treatments, setTreatments] = React.useState([]);
+  React.useEffect(() => {
+    axios.get("/Treatment/get-all-treatment").then((response) => {
+      setTreatments(response.data);
+    });
+  }, []);
+
+  const [selectedTreatment, setSelectedTreatment] = useState({
+    id: "",
+    name: "",
+  });
+  const handleTreatmentChange = (e) => {
+    const selectedId = e.target.value;
+    const selectedName = e.target.options[e.target.selectedIndex].text;
+    setSelectedTreatment({ id: selectedId, name: selectedName });
+  };
+
   return (
     <div class="card mt-4">
       <div class="card-header p-3">
@@ -111,7 +136,7 @@ const MultiStepForm = () => {
               <strong>Dentist</strong>
             </li>
             <li id="confirm">
-              <strong>Finish</strong>
+              <strong>Details</strong>
             </li>
           </ul>
           <div class="progress">
@@ -130,19 +155,23 @@ const MultiStepForm = () => {
                   <h2 class="fs-title">Choose a treatment:</h2>
                 </div>
                 <div class="col-5">
-                  <h2 class="steps">Step 1 - 4</h2>
+                  <h2 class="steps">Step 1/4</h2>
                 </div>
               </div>
               <div class="input-group input-group-static mb-4">
                 <label for="exampleFormControlSelect1" class="ms-0">
                   Treatment
                 </label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                <select
+                  class="form-control"
+                  id="exampleFormControlSelect1"
+                  onChange={handleTreatmentChange}
+                >
+                  {treatments.map((treatment) => (
+                    <option key={treatment.id} value={treatment.id}>
+                      {treatment.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -158,24 +187,13 @@ const MultiStepForm = () => {
             <div class="form-card">
               <div class="row">
                 <div class="col-7">
-                  <h2 class="fs-title">Personal Information:</h2>
+                  <h2 class="fs-title">Choose a date and time slot:</h2>
                 </div>
                 <div class="col-5">
-                  <h2 class="steps">Step 2 - 4</h2>
+                  <h2 class="steps">Step 2/4</h2>
                 </div>
               </div>
-              <label class="fieldlabels">First Name: *</label>
-              <input type="text" name="fname" placeholder="First Name" />
-              <label class="fieldlabels">Last Name: *</label>
-              <input type="text" name="lname" placeholder="Last Name" />
-              <label class="fieldlabels">Contact No.: *</label>
-              <input type="text" name="phno" placeholder="Contact No." />
-              <label class="fieldlabels">Alternate Contact No.: *</label>
-              <input
-                type="text"
-                name="phno_2"
-                placeholder="Alternate Contact No."
-              />
+              <Schedule />
             </div>
             <input
               type="button"
@@ -196,16 +214,24 @@ const MultiStepForm = () => {
             <div class="form-card">
               <div class="row">
                 <div class="col-7">
-                  <h2 class="fs-title">Image Upload:</h2>
+                  <h2 class="fs-title">Choose a dentist for you:</h2>
                 </div>
                 <div class="col-5">
-                  <h2 class="steps">Step 3 - 4</h2>
+                  <h2 class="steps">Step 3/4</h2>
                 </div>
               </div>
-              <label class="fieldlabels">Upload Your Photo:</label>
-              <input type="file" name="pic" accept="image/*" />
-              <label class="fieldlabels">Upload Signature Photo:</label>
-              <input type="file" name="pic" accept="image/*" />
+              <div class="input-group input-group-static mb-4">
+                <label for="exampleFormControlSelect1" class="ms-0">
+                  Dentist
+                </label>
+                <select class="form-control" id="exampleFormControlSelect1">
+                  <option>No preferences</option>
+                  <option>TNK DOG</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
             </div>
             <input
               type="button"
@@ -226,10 +252,10 @@ const MultiStepForm = () => {
             <div class="form-card">
               <div class="row">
                 <div class="col-7">
-                  <h2 class="fs-title">Finish:</h2>
+                  <h2 class="fs-title">Your appointment details:</h2>
                 </div>
                 <div class="col-5">
-                  <h2 class="steps">Step 4 - 4</h2>
+                  <h2 class="steps">Step 4/4</h2>
                 </div>
               </div>
               <br />
@@ -257,6 +283,19 @@ const MultiStepForm = () => {
                 </div>
               </div>
             </div>
+            <input
+              type="submit"
+              name="next"
+              class="next btn bg-gradient-info"
+              value="CONFIRM"
+            />
+            <input
+              type="button"
+              name="previous"
+              class="previous btn bg-gradient-secondary"
+              value="Previous"
+              onClick={handlePrevious}
+            />
           </fieldset>
         </form>
       </div>

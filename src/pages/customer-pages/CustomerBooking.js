@@ -8,15 +8,7 @@ import DashboardHead from "../../components/DashboardHead";
 import MultiStepForm from "../../components/MultistepForm";
 
 const CustomerBooking = () => {
-  const { patientId } = useParams();
-
-  const [treatments, setTreatments] = React.useState([]);
-
-  React.useEffect(() => {
-    axios.get("/Treatment/get-all-treatment").then((response) => {
-      setTreatments(response.data);
-    });
-  }, []);
+  const { patientId, setPatientId } = useParams();
 
   return (
     <div>
@@ -28,7 +20,7 @@ const CustomerBooking = () => {
             <div class="row">
               <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="card mt-4">
-                  <MultiStepForm />
+                  <MultiStepForm data={patientId} />
                 </div>
               </div>
             </div>
