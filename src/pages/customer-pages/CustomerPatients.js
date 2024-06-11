@@ -5,6 +5,7 @@ import Sidebar from "../../components/Sidebar";
 import DashboardHead from "../../components/DashboardHead";
 
 import customerService, { usePatients } from "../../services/CustomerService";
+import { Link } from "react-router-dom";
 
 const CustomerPatients = () => {
   const [patients, setPatients] = React.useState([]);
@@ -190,9 +191,19 @@ const CustomerPatients = () => {
                                 </span>
                               </td>
                               <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold">
+                                <input
+                                  type="hidden"
+                                  value={patient.patientId}
+                                />
+                                <Link
+                                  key={patient.patientId}
+                                  to={`/customer-booking/${patient.patientId}`}
+                                  class="text-secondary font-weight-bold text-xs"
+                                  data-toggle="tooltip"
+                                  data-original-title="Book for patient"
+                                >
                                   Book
-                                </span>
+                                </Link>
                               </td>
                             </tr>
                           ))}
