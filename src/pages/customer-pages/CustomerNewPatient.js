@@ -116,17 +116,15 @@ const CustomerNewPatient = () => {
                         </label>
                         <select
                           class="form-control"
-                          id="exampleFormControlSelect1"
+                          id="genderSelect"
                           onChange={handleChange}
-                          value="0"
+                          value={gender}
                         >
-                          <option value="" disabled>
-                            Select Gender
-                          </option>
-                          <option key="0" value="0">
+                          <option value=""></option>
+                          <option key="1" value="1">
                             Male
                           </option>
-                          <option key="1" value="1">
+                          <option key="2" value="2">
                             Female
                           </option>
                         </select>
