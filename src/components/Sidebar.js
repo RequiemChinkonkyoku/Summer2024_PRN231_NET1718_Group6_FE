@@ -62,7 +62,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li class="nav-item">
-            <Link class="nav-link text-white " to="#">
+            <Link class="nav-link text-white " to="/customer-appointment">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">dashboard</i>
               </div>

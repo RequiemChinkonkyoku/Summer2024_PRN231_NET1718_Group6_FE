@@ -11,6 +11,8 @@ import CustomerAccount from "../pages/customer-pages/CustomerAccount";
 import CustomerPatients from "../pages/customer-pages/CustomerPatients";
 import CustomerBooking from "../pages/customer-pages/CustomerBooking";
 import CustomerNewPatient from "../pages/customer-pages/CustomerNewPatient";
+import CustomerAppointment from "../pages/customer-pages/CustomerAppointment";
+import CustAppDetails from "../pages/customer-pages/CustAppDetails";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -41,6 +43,8 @@ const AppRoutes = () => {
           element={<CustomerBooking />}
         />
         <Route path="/customer-new-patient" element={<CustomerNewPatient />} />
+        <Route path="/customer-appointment" element={<CustomerAppointment />} />
+        <Route path="/cust-app-details" element={<CustAppDetails />} />
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>

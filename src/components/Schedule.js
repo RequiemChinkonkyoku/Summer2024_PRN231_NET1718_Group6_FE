@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Paper from "@mui/material/Paper";
 import {
   ViewState,
@@ -17,35 +17,46 @@ import {
   Toolbar,
   TodayButton,
 } from "@devexpress/dx-react-scheduler-material-ui";
+import axios from "../axiosConfig";
 
-const CurrentDate = () => {
-  const [currentDate, setCurrentDate] = useState("");
-
-  useEffect(() => {
-    const date = new Date();
-    const formattedDate = date.toLocaleDateString(); // This formats the date according to the user's locale
-    setCurrentDate(formattedDate);
-  }, []);
-
-  return currentDate;
+const CustomTimeTableCell = ({ onCellClick, hasAppointment, ...restProps }) => {
+  const cellStyle = hasAppointment
+    ? { backgroundColor: "#d3d3d3", pointerEvents: "none" }
+    : {};
+  return (
+    <WeekView.TimeTableCell
+      {...restProps}
+      style={cellStyle}
+      onClick={() => !hasAppointment && onCellClick(restProps.startDate)}
+    />
+  );
 };
 
-export default class Demo extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: [],
-      currentDate: { CurrentDate },
-    };
-    this.currentDateChange = (currentDate) => {
-      this.setState({ currentDate });
-    };
-    this.commitChanges = this.commitChanges.bind(this);
-  }
+const Demo = () => {
+  const [data, setData] = useState([]);
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toLocaleDateString()
+  );
+  const [selectedDateTime, setSelectedDateTime] = useState("");
 
-  commitChanges({ added, changed, deleted }) {
-    this.setState((state) => {
-      let { data } = state;
+  const fetchAppointments = useCallback(() => {
+    axios.get("/Treatment/get-all-treatment").then((response) => {
+      setData(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetchAppointments();
+  }, [fetchAppointments]);
+
+  const handleCellClick = useCallback((dateTime) => {
+    const formattedDateTime = new Date(dateTime).toLocaleString();
+    setSelectedDateTime(formattedDateTime);
+  }, []);
+
+  const commitChanges = ({ added, changed, deleted }) => {
+    setData((prevData) => {
+      let data = [...prevData];
       if (added) {
         const startingAddedId =
           data.length > 0 ? data[data.length - 1].id + 1 : 0;
@@ -61,35 +72,58 @@ export default class Demo extends React.PureComponent {
       if (deleted !== undefined) {
         data = data.filter((appointment) => appointment.id !== deleted);
       }
-      return { data };
+      return data;
     });
-  }
+  };
 
-  render() {
-    const { currentDate, data } = this.state;
+  const isTimeSlotOccupied = (dateTime) => {
+    return data.some((appointment) => {
+      const appointmentStart = new Date(appointment.startDate).getTime();
+      const appointmentEnd = new Date(appointment.endDate).getTime();
+      const slotTime = new Date(dateTime).getTime();
+      return slotTime >= appointmentStart && slotTime < appointmentEnd;
+    });
+  };
 
-    return (
-      <div>
-        <Paper>
-          <Scheduler data={data} height={660}>
-            <ViewState
-              currentDate={currentDate}
-              onCurrentDateChange={this.currentDateChange}
-            />
-            <Toolbar />
-            <DateNavigator />
-            <EditingState onCommitChanges={this.commitChanges} />
-            <IntegratedEditing />
-            <WeekView startDayHour={8} endDayHour={17} cellDuration={60} />
-            <ConfirmationDialog />
-            <Appointments />
-            <AppointmentTooltip showOpenButton showDeleteButton />
-            <AppointmentForm />
-            <TodayButton />
-          </Scheduler>
-        </Paper>
-        <input type="text" placeholder="year-month-day; timeslot"></input>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Paper>
+        <Scheduler data={data} height={660}>
+          <ViewState
+            currentDate={currentDate}
+            onCurrentDateChange={setCurrentDate}
+          />
+          <Toolbar />
+          <DateNavigator />
+          <EditingState onCommitChanges={commitChanges} />
+          <IntegratedEditing />
+          <WeekView
+            startDayHour={8}
+            endDayHour={17}
+            cellDuration={60}
+            timeTableCellComponent={(props) => (
+              <CustomTimeTableCell
+                {...props}
+                onCellClick={handleCellClick}
+                hasAppointment={isTimeSlotOccupied(props.startDate)}
+              />
+            )}
+          />
+          <ConfirmationDialog />
+          <Appointments />
+          <AppointmentTooltip showOpenButton showDeleteButton />
+          <AppointmentForm />
+          <TodayButton />
+        </Scheduler>
+      </Paper>
+      <input
+        type="text"
+        placeholder="year-month-day; timeslot"
+        value={selectedDateTime}
+        readOnly
+      />
+    </div>
+  );
+};
+
+export default Demo;

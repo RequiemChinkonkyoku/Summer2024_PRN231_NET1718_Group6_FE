@@ -224,7 +224,9 @@ const CustomerPatients = () => {
                                   data-toggle="tooltip"
                                   data-original-title="Book for patient"
                                 >
-                                  Book
+                                  <span class="btn bg-gradient-info mb-0">
+                                    Book
+                                  </span>
                                 </Link>
                               </td>
                             </tr>
