@@ -10,6 +10,7 @@ import CreateAppointment from "../pages/customer-pages/CreateAppointment";
 import CustomerAccount from "../pages/customer-pages/CustomerAccount";
 import CustomerPatients from "../pages/customer-pages/CustomerPatients";
 import CustomerBooking from "../pages/customer-pages/CustomerBooking";
+import CustomerNewPatient from "../pages/customer-pages/CustomerNewPatient";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -39,6 +40,7 @@ const AppRoutes = () => {
           path="/customer-booking/:patientId"
           element={<CustomerBooking />}
         />
+        <Route path="/customer-new-patient" element={<CustomerNewPatient />} />
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
