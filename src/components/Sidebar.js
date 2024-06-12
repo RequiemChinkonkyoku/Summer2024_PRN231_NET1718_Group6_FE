@@ -46,12 +46,12 @@ const Sidebar = () => {
       <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link text-white " href="../pages/profile.html">
+            <Link class="nav-link text-white " to="/customer-account">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">person</i>
               </div>
               <span class="nav-link-text ms-1">Account</span>
-            </a>
+            </Link>
           </li>
           <li class="nav-item">
             <Link class="nav-link text-white " to="/customer-patients">
@@ -62,20 +62,20 @@ const Sidebar = () => {
             </Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white " href="../pages/dashboard.html">
+            <Link class="nav-link text-white " to="#">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">dashboard</i>
               </div>
               <span class="nav-link-text ms-1">Appointment</span>
-            </a>
+            </Link>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white " href="../pages/billing.html">
+            <Link class="nav-link text-white " to="#">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">receipt_long</i>
               </div>
               <span class="nav-link-text ms-1">Billing History</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

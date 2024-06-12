@@ -3,6 +3,8 @@ import axios from "../../axiosConfig";
 
 import Sidebar from "../../components/Sidebar";
 import DashboardHead from "../../components/DashboardHead";
+import NavbarDash from "../../components/NavbarDash";
+import FooterDash from "../../components/FooterDash";
 
 import customerService, { usePatients } from "../../services/CustomerService";
 import { Link, useNavigate } from "react-router-dom";
@@ -62,6 +64,7 @@ const CustomerNewPatient = () => {
       <body class="g-sidenav-show  bg-gray-200">
         <Sidebar />
         <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+          <NavbarDash />
           <div class="container-fluid py-4">
             <div class="row">
               <div class="col-12">
@@ -148,6 +151,7 @@ const CustomerNewPatient = () => {
                 </div>
               </div>
             </div>
+            <FooterDash />
           </div>
         </main>
       </body>
