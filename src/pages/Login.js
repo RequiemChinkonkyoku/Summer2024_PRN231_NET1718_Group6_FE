@@ -17,13 +17,17 @@ import { useAuth } from "../services/AuthProvider";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isDentist, setIsDentist] = useState(false);
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const role = (isDentist == true) ? ("dentist") : ("customer");
     try {
-      await login(email, password);
+      await login(email, password, role);
       navigate("/");
     } catch (error) {
       console.error("Login failed", error);
@@ -90,15 +94,12 @@ const Login = () => {
                         />
                       </div>
                       <div class="form-check form-check-info text-start ps-0">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          id="flexCheckDefault"
-                          value=""
-                          checked=""
-                        />
-                        <label class="form-check-label" for="flexCheckDefault">
-                          Remember me
+                        <input type="checkbox"
+                          className="form-check-input"
+                          id="isDentist"
+                          onChange={(e) => setIsDentist(e.target.checked)} />
+                        <label class="form-check-label" for="isDentistChk">
+                          For Staff
                         </label>
                       </div>
                       <div class="text-center">

@@ -5,14 +5,16 @@ import ProtectedRoute from "./ProtectedRoute";
 import Homepage from "../pages/Homepage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import DentistDashboard from "../pages/DentistDashboard";
+import DentistDashboard from "../pages/dentist-pages/DentistDashboard";
+import DentistAppointment from "../pages/dentist-pages/DentistAppointment";
 import CreateAppointment from "../pages/customer-pages/CreateAppointment";
 import CustomerAccount from "../pages/customer-pages/CustomerAccount";
 import CustomerPatients from "../pages/customer-pages/CustomerPatients";
 import CustomerBooking from "../pages/customer-pages/CustomerBooking";
 import CustomerNewPatient from "../pages/customer-pages/CustomerNewPatient";
 import CustomerAppointment from "../pages/customer-pages/CustomerAppointment";
-import CustAppDetails from "../pages/customer-pages/CustAppDetails";
+import CusAppDetails from "../pages/customer-pages/CusAppDetails";
+import DentistAppDetails from "../pages/dentist-pages/DentistAppDetails";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -30,6 +32,8 @@ const AppRoutes = () => {
 
         <Route path="/" element={<ProtectedRoute roles={["dentist"]} />}>
           <Route path="dentist-dashboard" element={<DentistDashboard />} />
+          <Route path="dentist-appointment" element={<DentistAppointment />} />
+          <Route path="dentist-app-details/:appId" element={<DentistAppDetails />} />
         </Route>
 
         <Route path="/" element={<ProtectedRoute roles={["Customer"]} />}>
@@ -44,7 +48,7 @@ const AppRoutes = () => {
         />
         <Route path="/customer-new-patient" element={<CustomerNewPatient />} />
         <Route path="/customer-appointment" element={<CustomerAppointment />} />
-        <Route path="/cust-app-details" element={<CustAppDetails />} />
+        <Route path="/cus-app-details/:appId" element={<CusAppDetails />} />
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>

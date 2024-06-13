@@ -130,12 +130,14 @@ const CustomerAppointment = () => {
                                 />
                                 <Link
                                   key={app.appointmentIdId}
-                                  to={`/appointment-details/${app.appointmentIdId}`}
+                                  to={`/cus-app-details/${app.appointmentId}`}
                                   class="text-secondary font-weight-bold text-xs"
                                   data-toggle="tooltip"
-                                  data-original-title="Book for patient"
+                                  data-original-title="Appointment details"
                                 >
-                                  Details
+                                  <span class="btn bg-gradient-info mb-0">
+                                    Details
+                                  </span>
                                 </Link>
                               </td>
                             </tr>
