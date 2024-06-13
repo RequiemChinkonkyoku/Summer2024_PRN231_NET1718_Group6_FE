@@ -13,6 +13,7 @@ import CustomerBooking from "../pages/customer-pages/CustomerBooking";
 import CustomerNewPatient from "../pages/customer-pages/CustomerNewPatient";
 import CustomerAppointment from "../pages/customer-pages/CustomerAppointment";
 import CustAppDetails from "../pages/customer-pages/CustAppDetails";
+import LoginDentist from "../pages/LoginDentist";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login-dentist" element={<LoginDentist />} />
 
         {/* <Route path="/" element={<ProtectedRoute roles={["customer"]} />}>
           <Route path="customer-dashboard" element={<CustomerDashboard />} />
