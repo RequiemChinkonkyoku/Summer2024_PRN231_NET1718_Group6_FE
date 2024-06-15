@@ -1,17 +1,27 @@
-import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
+import axios from "../../axiosConfig";
 
-const baseURL = "https://localhost:44329/Dentist";
+import Sidebar from "../../components/Sidebar";
+import DashboardHead from "../../components/DashboardHead";
+import NavbarDash from "../../components/NavbarDash";
+import FooterDash from "../../components/FooterDash";
+
+import dentistService, { useAppointments } from "../../services/DentistService";
+import { Link } from "react-router-dom";
 
 const DentistDashboard = () => {
   const [dentists, setDentists] = React.useState([]);
-  const [selectedDentist, setSelectedDentist] = React.useState(null);
-  const [dentistID, setDentistID] = React.useState("");
+  const [token, setToken] = React.useState(localStorage.getItem("token"));
 
   React.useEffect(() => {
-    axios.get(baseURL).then((response) => {
-      setDentists(response.data);
-    });
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios
+        .get("/Dentist/get-all-dentists")
+        .then((response) => {
+          setDentists(response.data);
+        });
+    }
   }, []);
 
   if (dentists.length === 0)
