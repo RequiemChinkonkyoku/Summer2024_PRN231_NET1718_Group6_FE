@@ -21,9 +21,23 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  const login = async (email, password, role) => {
+  const loginCust = async (email, password) => {
     try {
-      const response = await axios.post(`/Account/${role}-login`, {
+      const response = await axios.post("/Account/customer-login", {
+        email,
+        password,
+      });
+      console.log("Login response:", response.data); // Debug log
+      setToken(response.data.token);
+    } catch (error) {
+      console.error("Login failed", error);
+      throw new Error("Login failed");
+    }
+  };
+
+  const loginDent = async (email, password) => {
+    try {
+      const response = await axios.post("/Account/dentist-login", {
         email,
         password,
       });
@@ -40,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, login, logout }}>
+    <AuthContext.Provider value={{ token, user, loginCust, loginDent, logout }}>
       {children}
     </AuthContext.Provider>
   );
