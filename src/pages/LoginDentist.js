@@ -24,7 +24,7 @@ const LoginDentist = () => {
     e.preventDefault();
     try {
       await loginDent(email, password);
-      navigate("/");
+      navigate("/dentist-account");
     } catch (error) {
       console.error("Login failed", error);
       // Handle login failure (e.g., show a message to the user)
@@ -54,7 +54,8 @@ const LoginDentist = () => {
                   <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-warning shadow-primary border-radius-lg py-3 pe-1">
                       <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
-                        Log in
+                        Log in <br />
+                        <small>for Dentists</small>
                       </h4>
                       <div class="row mt-3">
                         <div class="col-2 text-center ms-auto"></div>

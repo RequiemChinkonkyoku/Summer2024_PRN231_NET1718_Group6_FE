@@ -24,7 +24,7 @@ const Login = () => {
     e.preventDefault();
     try {
       await loginCust(email, password);
-      navigate("/");
+      navigate("/customer-account");
     } catch (error) {
       console.error("Login failed", error);
       // Handle login failure (e.g., show a message to the user)
@@ -55,6 +55,8 @@ const Login = () => {
                     <div class="bg-gradient-info shadow-primary border-radius-lg py-3 pe-1">
                       <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
                         Log in
+                        <br />
+                        <small>for Customers</small>
                         <br />
                       </h4>
                       <div class="row mt-3">
