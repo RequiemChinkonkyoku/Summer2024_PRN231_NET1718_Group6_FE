@@ -3,8 +3,11 @@ import axios from "../../axiosConfig";
 
 import Sidebar from "../../components/Sidebar";
 import DashboardHead from "../../components/DashboardHead";
+import NavbarDash from "../../components/NavbarDash";
+import FooterDash from "../../components/FooterDash";
 
 import customerService, { usePatients } from "../../services/CustomerService";
+import { Link } from "react-router-dom";
 
 const CustomerPatients = () => {
   const [patients, setPatients] = React.useState([]);
@@ -28,6 +31,7 @@ const CustomerPatients = () => {
       <body class="g-sidenav-show  bg-gray-200">
         <Sidebar />
         <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+          <NavbarDash />
           <div class="container-fluid py-4">
             <div class="row">
               <div class="col-12">
@@ -40,6 +44,25 @@ const CustomerPatients = () => {
                     </div>
                   </div>
                   <div class="card-body px-0 pb-2">
+                    <div class="card-header pb-0 p-3">
+                      <div class="row">
+                        <div class="col-6 d-flex align-items-center">
+                          <h6 class="mb-0"></h6>
+                        </div>
+                        <div class="col-6 text-end">
+                          <Link
+                            to="/customer-new-patient"
+                            class="btn bg-gradient-dark mb-0"
+                          >
+                            <i class="material-icons text-sm">add</i>
+                            &nbsp;&nbsp;Add New Patient
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <br />
+                    </div>
                     <div class="table-responsive p-0">
                       <table class="table align-items-center mb-0">
                         <thead>
@@ -190,9 +213,21 @@ const CustomerPatients = () => {
                                 </span>
                               </td>
                               <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold">
-                                  Book
-                                </span>
+                                <input
+                                  type="hidden"
+                                  value={patient.patientId}
+                                />
+                                <Link
+                                  key={patient.patientId}
+                                  to={`/customer-booking/${patient.patientId}`}
+                                  class="text-secondary font-weight-bold text-xs"
+                                  data-toggle="tooltip"
+                                  data-original-title="Book for patient"
+                                >
+                                  <span class="btn bg-gradient-info mb-0">
+                                    Book
+                                  </span>
+                                </Link>
                               </td>
                             </tr>
                           ))}
@@ -203,6 +238,7 @@ const CustomerPatients = () => {
                 </div>
               </div>
             </div>
+            <FooterDash />
           </div>
         </main>
       </body>

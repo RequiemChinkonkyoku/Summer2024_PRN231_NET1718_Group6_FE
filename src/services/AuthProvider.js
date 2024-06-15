@@ -21,9 +21,9 @@ export const AuthProvider = ({ children }) => {
     }
   }, [token]);
 
-  const login = async (email, password) => {
+  const login = async (email, password, role) => {
     try {
-      const response = await axios.post("/Account/customer-login", {
+      const response = await axios.post(`/Account/${role}-login`, {
         email,
         password,
       });
