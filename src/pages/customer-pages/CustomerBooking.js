@@ -10,6 +10,10 @@ import MultiStepForm from "../../components/MultistepForm";
 const CustomerBooking = () => {
   const { patientId, setPatientId } = useParams();
 
+  const handleButtonClick = () => {
+    console.log(patientId);
+  };
+
   return (
     <div>
       <DashboardHead />
@@ -20,7 +24,7 @@ const CustomerBooking = () => {
             <div class="row">
               <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="card mt-4">
-                  <MultiStepForm data={patientId} />
+                  <MultiStepForm id={patientId} />
                 </div>
               </div>
             </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
-import axios from "axios";
+import axios from "../axiosConfig";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, startOfWeek, addDays } from "date-fns";
 
@@ -10,30 +10,40 @@ import "../assets/css/nucleo-svg.css"; // Local CSS file for SVGs
 import "../assets/css/material-dashboard.css"; // Local CSS for material dashboard
 import "../assets/css/material-kit.css";
 
-const ScheduleTable = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
+const ScheduleTable = ({ treatment }) => {
   const [weekDates, setWeekDates] = useState([]);
   const [schedules, setSchedules] = useState([]);
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const [selectedSlot, setSelectedSlot] = useState({
     date: "",
     timeslot: "",
     status: "",
   });
 
+  const [treatmentId, setTreatmentId] = React.useState([]);
   useEffect(() => {
-    axios
-      .get("https://localhost:44329/Schedule/get-all-schedule")
-      .then((response) => {
-        setSchedules(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching schedules:", error);
-      });
-  }, []);
+    console.log("treatTransfer: " + treatment);
+    setTreatmentId(treatment);
+  }, [treatmentId, token, weekDates, treatment]);
+
+  useEffect(() => {
+    if (token && treatmentId) {
+      // Ensure selectedDate is truthy before making the API call
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios
+        .get(`/Schedule/get-schedules-for-app?treatmentId=${treatmentId}`)
+        .then((response) => {
+          setSchedules(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching schedules:", error);
+          console.log(treatmentId);
+        });
+    }
+  }, [treatmentId, token, weekDates, treatment]);
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);
-    const startOfSelectedWeek = startOfWeek(date, { weekStartsOn: 1 }); // Start week on Monday
+    const startOfSelectedWeek = startOfWeek(date, { weekStartsOn: 0 }); // Start week on Sunday
     const week = Array.from({ length: 7 }, (_, i) =>
       addDays(startOfSelectedWeek, i)
     );
@@ -85,7 +95,6 @@ const ScheduleTable = () => {
     <div>
       <h5>Select a Date</h5>
       <DatePicker
-        selected={selectedDate}
         onChange={handleDateChange}
         dateFormat="yyyy/MM/dd"
         placeholderText="Choose a date"
@@ -148,48 +157,9 @@ const ScheduleTable = () => {
               </table>
             </div>
           </div>
-
-          {/* <h3>Week containing selected date:</h3>
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th>Time</th>
-                {weekDates.map((date, index) => (
-                  <th key={index}>{format(date, "yyyy-MM-dd")}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {timeslots.map((timeslot, rowIndex) => (
-                <tr key={rowIndex}>
-                  <td>{timeslotMap[timeslot]}</td>
-                  {weekDates.map((date, colIndex) => {
-                    const status = getStatusForCell(date, parseInt(timeslot));
-                    const cellStyle =
-                      status === "available"
-                        ? { backgroundColor: "green", cursor: "pointer" }
-                        : {};
-                    return (
-                      <td
-                        key={colIndex}
-                        style={{ ...cellStyle }}
-                        onClick={() => handleCellClick(date, timeslot)}
-                      >
-                        {status === "available" && (
-                          <span>
-                            {format(date, "yyyy-MM-dd")} -{" "}
-                            {timeslotMap[timeslot]}
-                          </span>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
           <div>
-            <h5>Selected Slot</h5>
+            <br />
+            <h5>Selected time</h5>
             <input
               type="text"
               value={

@@ -97,7 +97,8 @@ const MultiStepForm = ({ id }) => {
   const [patientId, setPatientID] = React.useState([]);
   useEffect(() => {
     setPatientID(id);
-  }, [id]);
+    console.log("effect: " + id);
+  }, []);
 
   const [treatments, setTreatments] = React.useState([]);
   React.useEffect(() => {
@@ -110,10 +111,16 @@ const MultiStepForm = ({ id }) => {
     id: "",
     name: "",
   });
+  const [treatment, setTreatment] = useState("");
+
   const handleTreatmentChange = (e) => {
     const selectedId = e.target.value;
     const selectedName = e.target.options[e.target.selectedIndex].text;
+    // setSelection({ id: selectedId, name: selectedName });
     setSelectedTreatment({ id: selectedId, name: selectedName });
+    setTreatment(selectedId);
+    console.log("id: " + selectedId);
+    console.log("patId: " + patientId);
   };
 
   return (
@@ -165,11 +172,16 @@ const MultiStepForm = ({ id }) => {
                 </label>
                 <select
                   class="form-control"
-                  id="exampleFormControlSelect1"
+                  id="treatmentSelect"
                   onChange={handleTreatmentChange}
+                  value={treatment}
                 >
+                  <option value=""></option>
                   {treatments.map((treatment) => (
-                    <option key={treatment.id} value={treatment.id}>
+                    <option
+                      key={treatment.treatmentId}
+                      value={treatment.treatmentId}
+                    >
                       {treatment.name}
                     </option>
                   ))}
@@ -194,7 +206,7 @@ const MultiStepForm = ({ id }) => {
                   <h2 class="steps">Step 2/4</h2>
                 </div>
               </div>
-              <ScheduleTable />
+              <ScheduleTable treatment={treatment} />
             </div>
             <input
               type="button"
