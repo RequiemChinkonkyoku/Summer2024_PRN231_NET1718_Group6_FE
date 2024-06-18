@@ -3,6 +3,7 @@ import axios from "../axiosConfig";
 import "../assets/custom/multistepForm.css"; // Ensure you have the styles
 
 import Schedule from "./Schedule";
+import ScheduleTable from "./Schedule";
 
 const MultiStepForm = ({ id }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -193,7 +194,7 @@ const MultiStepForm = ({ id }) => {
                   <h2 class="steps">Step 2/4</h2>
                 </div>
               </div>
-              <Schedule />
+              <ScheduleTable />
             </div>
             <input
               type="button"

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../axiosConfig";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import MainHead from "../components/MainHead";
 import NavbarTransparent from "../components/NavbarTransparent";
@@ -26,13 +28,29 @@ const Login = () => {
       await loginCust(email, password);
       navigate("/customer-account");
     } catch (error) {
+      notifyApiFailed();
       console.error("Login failed", error);
       // Handle login failure (e.g., show a message to the user)
     }
   };
 
+  const notifyApiFailed = () => {
+    toast.error("Login failed", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
   return (
     <div>
+      <ToastContainer />
       <MainHead />
       <body class="sign-in-basic">
         <NavbarTransparent />

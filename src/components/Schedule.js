@@ -1,129 +1,211 @@
-import * as React from "react";
-import { useState, useEffect, useCallback } from "react";
-import Paper from "@mui/material/Paper";
-import {
-  ViewState,
-  EditingState,
-  IntegratedEditing,
-} from "@devexpress/dx-react-scheduler";
-import {
-  Scheduler,
-  Appointments,
-  AppointmentForm,
-  AppointmentTooltip,
-  ConfirmationDialog,
-  WeekView,
-  DateNavigator,
-  Toolbar,
-  TodayButton,
-} from "@devexpress/dx-react-scheduler-material-ui";
-import axios from "../axiosConfig";
+import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import axios from "axios";
+import "react-datepicker/dist/react-datepicker.css";
+import { format, startOfWeek, addDays } from "date-fns";
 
-const CustomTimeTableCell = ({ onCellClick, hasAppointment, ...restProps }) => {
-  const cellStyle = hasAppointment
-    ? { backgroundColor: "#d3d3d3", pointerEvents: "none" }
-    : {};
-  return (
-    <WeekView.TimeTableCell
-      {...restProps}
-      style={cellStyle}
-      onClick={() => !hasAppointment && onCellClick(restProps.startDate)}
-    />
-  );
-};
+import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS
+import "../assets/css/nucleo-icons.css"; // Local CSS file for icons
+import "../assets/css/nucleo-svg.css"; // Local CSS file for SVGs
+import "../assets/css/material-dashboard.css"; // Local CSS for material dashboard
+import "../assets/css/material-kit.css";
 
-const Demo = () => {
-  const [data, setData] = useState([]);
-  const [currentDate, setCurrentDate] = useState(
-    new Date().toLocaleDateString()
-  );
-  const [selectedDateTime, setSelectedDateTime] = useState("");
-
-  const fetchAppointments = useCallback(() => {
-    axios.get("/Treatment/get-all-treatment").then((response) => {
-      setData(response.data);
-    });
-  }, []);
+const ScheduleTable = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [weekDates, setWeekDates] = useState([]);
+  const [schedules, setSchedules] = useState([]);
+  const [selectedSlot, setSelectedSlot] = useState({
+    date: "",
+    timeslot: "",
+    status: "",
+  });
 
   useEffect(() => {
-    fetchAppointments();
-  }, [fetchAppointments]);
-
-  const handleCellClick = useCallback((dateTime) => {
-    const formattedDateTime = new Date(dateTime).toLocaleString();
-    setSelectedDateTime(formattedDateTime);
+    axios
+      .get("https://localhost:44329/Schedule/get-all-schedule")
+      .then((response) => {
+        setSchedules(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching schedules:", error);
+      });
   }, []);
 
-  const commitChanges = ({ added, changed, deleted }) => {
-    setData((prevData) => {
-      let data = [...prevData];
-      if (added) {
-        const startingAddedId =
-          data.length > 0 ? data[data.length - 1].id + 1 : 0;
-        data = [...data, { id: startingAddedId, ...added }];
-      }
-      if (changed) {
-        data = data.map((appointment) =>
-          changed[appointment.id]
-            ? { ...appointment, ...changed[appointment.id] }
-            : appointment
-        );
-      }
-      if (deleted !== undefined) {
-        data = data.filter((appointment) => appointment.id !== deleted);
-      }
-      return data;
-    });
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    const startOfSelectedWeek = startOfWeek(date, { weekStartsOn: 1 }); // Start week on Monday
+    const week = Array.from({ length: 7 }, (_, i) =>
+      addDays(startOfSelectedWeek, i)
+    );
+    setWeekDates(week);
   };
 
-  const isTimeSlotOccupied = (dateTime) => {
-    return data.some((appointment) => {
-      const appointmentStart = new Date(appointment.startDate).getTime();
-      const appointmentEnd = new Date(appointment.endDate).getTime();
-      const slotTime = new Date(dateTime).getTime();
-      return slotTime >= appointmentStart && slotTime < appointmentEnd;
-    });
+  const timeslotMap = {
+    1: "09:00 - 10:00",
+    2: "10:00 - 11:00",
+    3: "11:00 - 12:00",
+    4: "12:00 - 13:00",
+    5: "13:00 - 14:00",
+    6: "14:00 - 15:00",
+    7: "15:00 - 16:00",
+    8: "16:00 - 17:00",
   };
+
+  const timeslots = Object.keys(timeslotMap);
+
+  const getStatusForCell = (date, timeslot) => {
+    const schedule = schedules.find(
+      (sch) =>
+        format(new Date(sch.workDate), "yyyy-MM-dd") ===
+          format(date, "yyyy-MM-dd") &&
+        sch.timeSlot === timeslot &&
+        sch.status === 1
+    );
+    return schedule ? "available" : "unavailable";
+  };
+
+  const handleCellClick = (date, timeslot) => {
+    const status = getStatusForCell(date, parseInt(timeslot));
+    if (status === "available") {
+      setSelectedSlot({ date: format(date, "yyyy-MM-dd"), timeslot, status });
+    }
+  };
+
+  const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
+    <input
+      className="custom-datepicker"
+      value={value}
+      onClick={onClick}
+      readOnly
+      ref={ref}
+    />
+  ));
 
   return (
     <div>
-      <Paper>
-        <Scheduler data={data} height={660}>
-          <ViewState
-            currentDate={currentDate}
-            onCurrentDateChange={setCurrentDate}
-          />
-          <Toolbar />
-          <DateNavigator />
-          <EditingState onCommitChanges={commitChanges} />
-          <IntegratedEditing />
-          <WeekView
-            startDayHour={8}
-            endDayHour={17}
-            cellDuration={60}
-            timeTableCellComponent={(props) => (
-              <CustomTimeTableCell
-                {...props}
-                onCellClick={handleCellClick}
-                hasAppointment={isTimeSlotOccupied(props.startDate)}
-              />
-            )}
-          />
-          <ConfirmationDialog />
-          <Appointments />
-          <AppointmentTooltip showOpenButton showDeleteButton />
-          <AppointmentForm />
-          <TodayButton />
-        </Scheduler>
-      </Paper>
-      <input
-        type="text"
-        placeholder="year-month-day; timeslot"
-        value={selectedDateTime}
-        readOnly
+      <h5>Select a Date</h5>
+      <DatePicker
+        selected={selectedDate}
+        onChange={handleDateChange}
+        dateFormat="yyyy/MM/dd"
+        placeholderText="Choose a date"
+        customInput={<CustomInput />}
       />
+
+      <h5>Select a slot</h5>
+      {weekDates.length > 0 && (
+        <div>
+          <div class="card">
+            <div class="table-responsive">
+              <table class="table align-items-center mb-0">
+                <thead>
+                  <tr>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                      Time
+                    </th>
+                    {weekDates.map((date, index) => (
+                      <th
+                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"
+                        key={index}
+                      >
+                        {format(date, "yyyy-MM-dd")}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {timeslots.map((timeslot, rowIndex) => (
+                    <tr key={rowIndex}>
+                      <td class="text-secondary text-xs font-weight-normal">
+                        {timeslotMap[timeslot]}
+                      </td>
+                      {weekDates.map((date, colIndex) => {
+                        const status = getStatusForCell(
+                          date,
+                          parseInt(timeslot)
+                        );
+                        const cellStyle =
+                          status === "available"
+                            ? { class: "badge badge-sm badge-success" }
+                            : {};
+                        return (
+                          <td
+                            key={colIndex}
+                            class="align-middle text-center text-sm"
+                            onClick={() => handleCellClick(date, timeslot)}
+                          >
+                            {status === "available" && (
+                              <span class="badge badge-sm bg-gradient-success">
+                                Available
+                              </span>
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* <h3>Week containing selected date:</h3>
+          <table className="table table-bordered">
+            <thead>
+              <tr>
+                <th>Time</th>
+                {weekDates.map((date, index) => (
+                  <th key={index}>{format(date, "yyyy-MM-dd")}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {timeslots.map((timeslot, rowIndex) => (
+                <tr key={rowIndex}>
+                  <td>{timeslotMap[timeslot]}</td>
+                  {weekDates.map((date, colIndex) => {
+                    const status = getStatusForCell(date, parseInt(timeslot));
+                    const cellStyle =
+                      status === "available"
+                        ? { backgroundColor: "green", cursor: "pointer" }
+                        : {};
+                    return (
+                      <td
+                        key={colIndex}
+                        style={{ ...cellStyle }}
+                        onClick={() => handleCellClick(date, timeslot)}
+                      >
+                        {status === "available" && (
+                          <span>
+                            {format(date, "yyyy-MM-dd")} -{" "}
+                            {timeslotMap[timeslot]}
+                          </span>
+                        )}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table> */}
+          <div>
+            <h5>Selected Slot</h5>
+            <input
+              type="text"
+              value={
+                selectedSlot.date && selectedSlot.timeslot
+                  ? `Date: ${selectedSlot.date}, Timeslot: ${
+                      timeslotMap[selectedSlot.timeslot]
+                    }, Status: ${selectedSlot.status}`
+                  : ""
+              }
+              readOnly
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Demo;
+export default ScheduleTable;
