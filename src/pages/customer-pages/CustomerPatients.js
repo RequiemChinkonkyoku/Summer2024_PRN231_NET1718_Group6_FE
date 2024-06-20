@@ -132,9 +132,21 @@ const CustomerPatients = () => {
                                 )}
                               </td>
                               <td class="align-middle text-center">
-                                <span class="text-secondary text-xs font-weight-bold">
-                                  Edit
-                                </span>
+                                <input
+                                  type="hidden"
+                                  value={patient.patientId}
+                                />
+                                <Link
+                                  key={patient.patientId}
+                                  to={`/cus-edit-pat/${patient.patientId}`}
+                                  class="text-secondary font-weight-bold text-xs"
+                                  data-toggle="tooltip"
+                                  data-original-title="Book for patient"
+                                >
+                                  <span class="btn bg-gradient-secondary mb-0">
+                                    Edit
+                                  </span>
+                                </Link>
                               </td>
                               <td class="align-middle text-center">
                                 <input

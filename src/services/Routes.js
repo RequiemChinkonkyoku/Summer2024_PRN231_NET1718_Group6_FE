@@ -17,6 +17,7 @@ import CusAppDetails from "../pages/customer-pages/CusAppDetails";
 import DentistAppDetails from "../pages/dentist-pages/DentistAppDetails";
 import LoginDentist from "../pages/LoginDentist";
 import DentistAccount from "../pages/dentist-pages/DentistAccount";
+import CusEditPat from "../pages/customer-pages/CusEditPat";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -52,6 +53,7 @@ const AppRoutes = () => {
           path="/customer-booking/:patientId"
           element={<CustomerBooking />}
         />
+        <Route path="/cus-edit-pat/:patientId" element={<CusEditPat />} />
         <Route path="/customer-new-patient" element={<CustomerNewPatient />} />
         <Route path="/customer-appointment" element={<CustomerAppointment />} />
         <Route path="/cus-app-details" element={<CusAppDetails />} />
