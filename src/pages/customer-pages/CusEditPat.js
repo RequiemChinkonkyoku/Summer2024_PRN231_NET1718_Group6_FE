@@ -6,7 +6,6 @@ import DashboardHead from "../../components/DashboardHead";
 import NavbarDash from "../../components/NavbarDash";
 import FooterDash from "../../components/FooterDash";
 
-import customerService, { usePatients } from "../../services/CustomerService";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 const CusEditPat = () => {
@@ -16,32 +15,34 @@ const CusEditPat = () => {
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("");
   const { patientId } = useParams();
-  const [patient, setPatient] = useState([]);
+  const [patient, setPatient] = useState(null); // Start with null
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPatientDetails(patientId);
-    setName(patient.name);
-    setAge(patient.age);
-    setAddress(patient.address);
-    setGender(patient.gender);
-  }, []);
+    const getPatientDetails = async () => {
+      try {
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        const response = await axios.get(
+          `/Patient/get-patient-by-id/${patientId}`
+        );
+        setPatient(response.data);
+      } catch (error) {
+        console.error("Error fetching data.");
+      }
+    };
 
-  const getPatientDetails = async () => {
-    try {
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = axios
-        .get(`/Patient/get-patient-by-id/${patientId}`)
-        .then((response) => {
-          setPatient(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data.");
-        });
-      console.log(patient.name);
-    } catch (ex) {}
-  };
+    getPatientDetails();
+  }, [patientId, token]);
+
+  useEffect(() => {
+    if (patient) {
+      setName(patient.name);
+      setAge(patient.age);
+      setAddress(patient.address);
+      setGender(patient.gender);
+    }
+  }, [patient]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,44 +50,56 @@ const CusEditPat = () => {
       await updatePatient(name, age, address, gender);
       navigate("/customer-patients");
     } catch (error) {
-      console.error("Login failed", error);
-      // Handle login failure (e.g., show a message to the user)
+      console.error("Submit failed", error);
     }
   };
 
   const updatePatient = async (name, age, address, gender) => {
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await axios.put(`/Patient/update-patient/${patientId}`, {
+      await axios.put(`/Patient/update-patient/${patientId}`, {
         name,
         age,
         address,
         gender,
       });
-      console.log("Response:", response.data); // Debug log
     } catch (error) {
       console.error("Error", error);
       throw new Error("Error");
     }
   };
 
-  const [selection, setSelection] = useState({
-    id: "",
-    name: "",
-  });
-
   const handleChange = (e) => {
     const selectedId = e.target.value;
     const selectedName = e.target.options[e.target.selectedIndex].text;
-    setSelection({ id: selectedId, name: selectedName });
     setGender(selectedId);
-    console.log("id: " + selectedId);
   };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    try {
+      await deletePatient();
+      navigate("/customer-patients");
+    } catch (error) {
+      console.error("Delete failed", error);
+    }
+  };
+
+  const deletePatient = async () => {
+    try {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      await axios.delete(`/Patient/delete-patient/${patientId}`);
+    } catch (error) {
+      console.error("Error fetching data.");
+    }
+  };
+
+  if (!patient) return <div>Loading...</div>;
 
   return (
     <div>
       <DashboardHead />
-      <body class="g-sidenav-show  bg-gray-200">
+      <body class="g-sidenav-show bg-gray-200">
         <Sidebar />
         <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
           <NavbarDash />
@@ -172,6 +185,22 @@ const CusEditPat = () => {
                         </div>
                       </div>
                     </form>
+                    <br />
+                    <div class="row">
+                      <div class="col-6 d-flex align-items-center">
+                        <h6 class="mb-0"></h6>
+                      </div>
+                      <div class="col-6 text-end">
+                        <button
+                          onClick={handleDelete}
+                          type="submit"
+                          class="btn bg-gradient-danger mb-0"
+                        >
+                          <i class="material-icons text-sm">add</i>
+                          &nbsp;&nbsp;Delete
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
