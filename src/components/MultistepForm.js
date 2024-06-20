@@ -123,6 +123,75 @@ const MultiStepForm = ({ id }) => {
     console.log("patId: " + patientId);
   };
 
+  const [dentists, setDentists] = React.useState([]);
+  const getDentists = () => {
+    try {
+      axios
+        .post("/Dentist/get-dentist-for-app", {
+          treatmentId: treatment,
+          date: date,
+          timeSlot: timeSlot,
+        })
+        .then((response) => {
+          setDentists(response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching dentists:", error);
+        });
+    } catch (e) {}
+  };
+
+  const [selectedDentist, setSelectedDentist] = useState({
+    id: "",
+    name: "",
+  });
+  const [dentist, setDentist] = useState("");
+
+  const handleDentistChange = (e) => {
+    const selectedId = e.target.value;
+    const selectedScheduleId =
+      e.target.options[e.target.selectedIndex].getAttribute("data-schedule-id");
+    const selectedName = e.target.options[e.target.selectedIndex].text;
+    // setSelection({ id: selectedId, name: selectedName });
+    setSelectedDentist({ id: selectedId, name: selectedName });
+    setDentist(selectedId);
+    setSId(selectedScheduleId);
+    console.log("sid: " + sId);
+  };
+
+  const [date, setDate] = useState([]);
+  const [timeSlot, setTimeSlot] = useState([]);
+
+  const getScheduleData = () => {
+    setDate(document.getElementById("hiddenDate").value);
+    setTimeSlot(document.getElementById("hiddenTimeSlot").value);
+    console.log("d: " + date + "; ts: " + timeSlot);
+  };
+
+  useEffect(() => {
+    if (date && timeSlot) {
+      getDentists();
+    }
+  }, [date, timeSlot]);
+
+  const [sId, setSId] = useState([]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post(`/Appointment/create-appointment`, {
+        patientId: patientId,
+        scheduleId: sId,
+        treatmentId: treatment,
+        dentistId: dentist,
+      });
+      // navigate("/customer-appointment");
+    } catch (error) {
+      console.error(error);
+      // Handle login failure (e.g., show a message to the user)
+    }
+  };
+
   return (
     <div class="card mt-4">
       <div class="card-header p-3">
@@ -132,7 +201,7 @@ const MultiStepForm = ({ id }) => {
         <p>Fill all form field to go to next step</p>
       </div>
       <div class="card-body p-3 pb-0">
-        <form id="msform" role="form">
+        <form id="msform" role="form" onSubmit={handleSubmit}>
           <ul id="progressbar" style={{ paddingLeft: 10, paddingRight: 10 }}>
             <li class="active" id="account">
               <strong>Treatment</strong>
@@ -213,7 +282,11 @@ const MultiStepForm = ({ id }) => {
               name="next"
               class="next btn bg-gradient-info"
               value="Next"
-              onClick={handleNext}
+              onClick={function (e) {
+                getScheduleData();
+                // getDentists();
+                handleNext(e);
+              }}
             />
             <input
               type="button"
@@ -237,12 +310,22 @@ const MultiStepForm = ({ id }) => {
                 <label for="exampleFormControlSelect1" class="ms-0">
                   Dentist
                 </label>
-                <select class="form-control" id="exampleFormControlSelect1">
-                  <option>No preferences</option>
-                  <option>TNK DOG</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                <select
+                  class="form-control"
+                  id="treatmentSelect"
+                  onChange={handleDentistChange}
+                  value={dentist}
+                >
+                  <option value=""></option>
+                  {dentists.map((dentist) => (
+                    <option
+                      key={dentist.dentistId}
+                      value={dentist.dentistId}
+                      data-schedule-id={dentist.scheduleId}
+                    >
+                      {dentist.dentistName}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -262,39 +345,8 @@ const MultiStepForm = ({ id }) => {
             />
           </fieldset>
           <fieldset>
-            <div class="form-card">
-              <div class="row">
-                <div class="col-7">
-                  <h2 class="fs-title">Your appointment details:</h2>
-                </div>
-                <div class="col-5">
-                  <h2 class="steps">Step 4/4</h2>
-                </div>
-              </div>
-              <br />
-              <br />
-              <h2 class="purple-text text-center">
-                <strong>SUCCESS !</strong>
-              </h2>
-              <br />
-              <div class="row justify-content-center">
-                <div class="col-3">
-                  <img
-                    src="https://i.imgur.com/GwStPmg.png"
-                    class="fit-image"
-                    alt="Success"
-                  />
-                </div>
-              </div>
-              <br />
-              <br />
-              <div class="row justify-content-center">
-                <div class="col-7 text-center">
-                  <h5 class="purple-text text-center">
-                    You Have Successfully Signed Up
-                  </h5>
-                </div>
-              </div>
+            <div>
+              <h5>Details</h5>
             </div>
             <input
               type="submit"

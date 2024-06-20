@@ -10,7 +10,7 @@ import "../assets/css/nucleo-svg.css"; // Local CSS file for SVGs
 import "../assets/css/material-dashboard.css"; // Local CSS for material dashboard
 import "../assets/css/material-kit.css";
 
-const ScheduleTable = ({ treatment }) => {
+const ScheduleTable = ({ treatment }, { onDataChange }) => {
   const [weekDates, setWeekDates] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -28,17 +28,19 @@ const ScheduleTable = ({ treatment }) => {
 
   useEffect(() => {
     if (token && treatmentId) {
-      // Ensure selectedDate is truthy before making the API call
-      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios
-        .get(`/Schedule/get-schedules-for-app?treatmentId=${treatmentId}`)
-        .then((response) => {
-          setSchedules(response.data);
-        })
-        .catch((error) => {
-          console.error("Error fetching schedules:", error);
-          console.log(treatmentId);
-        });
+      try {
+        // Ensure selectedDate is truthy before making the API call
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axios
+          .get(`/Schedule/get-schedules-for-app?treatmentId=${treatmentId}`)
+          .then((response) => {
+            setSchedules(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching schedules:", error);
+            console.log(treatmentId);
+          });
+      } catch (e) {}
     }
   }, [treatmentId, token, weekDates, treatment]);
 
@@ -174,6 +176,8 @@ const ScheduleTable = ({ treatment }) => {
           </div>
         </div>
       )}
+      <input type="hidden" value={selectedSlot.date} id="hiddenDate" />
+      <input type="hidden" value={selectedSlot.timeslot} id="hiddenTimeSlot" />
     </div>
   );
 };
