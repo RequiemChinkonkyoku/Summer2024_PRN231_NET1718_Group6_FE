@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import axios from "../axiosConfig"; // Adjust the path accordingly
+import * as jwt_decode from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -49,12 +50,29 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const loginEmpl = async (email, password) => {
+    try {
+      const response = await axios.post("/Account/employee-login", {
+        email,
+        password,
+      });
+      console.log("Login response:", response.data); // Debug log
+
+      setToken(response.data.token);
+    } catch (error) {
+      console.error("Login failed", error);
+      throw new Error("Login failed");
+    }
+  };
+
   const logout = () => {
     setToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, loginCust, loginDent, logout }}>
+    <AuthContext.Provider
+      value={{ token, user, loginCust, loginDent, loginEmpl, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

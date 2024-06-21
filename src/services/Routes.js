@@ -35,7 +35,7 @@ const AppRoutes = () => {
         </Route> */}
 
         <Route path="/" element={<ProtectedRoute roles={["dentist"]} />}>
-          <Route path="dentist-dashboard" element={<DentistDashboard />} />
+          <Route path="dentist-account" element={<DentistAccount />} />
           <Route path="dentist-appointment" element={<DentistAppointment />} />
           <Route
             path="dentist-app-details/:appId"
@@ -56,7 +56,7 @@ const AppRoutes = () => {
         <Route path="/cus-edit-pat/:patientId" element={<CusEditPat />} />
         <Route path="/customer-new-patient" element={<CustomerNewPatient />} />
         <Route path="/customer-appointment" element={<CustomerAppointment />} />
-        <Route path="/cus-app-details" element={<CusAppDetails />} />
+        <Route path="/cus-app-details/:appId" element={<CusAppDetails />} />
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
