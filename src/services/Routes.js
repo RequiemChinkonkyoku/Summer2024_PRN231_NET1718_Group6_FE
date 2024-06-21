@@ -5,9 +5,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import Homepage from "../pages/Homepage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
-import DentistDashboard from "../pages/dentist-pages/DentistDashboard";
 import DentistAppointment from "../pages/dentist-pages/DentistAppointment";
-import CreateAppointment from "../pages/customer-pages/CreateAppointment";
 import CustomerAccount from "../pages/customer-pages/CustomerAccount";
 import CustomerPatients from "../pages/customer-pages/CustomerPatients";
 import CustomerBooking from "../pages/customer-pages/CustomerBooking";
@@ -18,6 +16,8 @@ import DentistAppDetails from "../pages/dentist-pages/DentistAppDetails";
 import LoginDentist from "../pages/LoginDentist";
 import DentistAccount from "../pages/dentist-pages/DentistAccount";
 import CusEditPat from "../pages/customer-pages/CusEditPat";
+import ManagerAccount from "../pages/manager-pages/ManagerAccount";
+import { Navigate } from "react-router-dom";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -26,15 +26,20 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login-dentist" element={<LoginDentist />} />
+        <Route
+          path="/login"
+          element={!token ? <Login /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/register"
+          element={!token ? <Register /> : <Navigate to="/" replace />}
+        />
+        <Route
+          path="/login-dentist"
+          element={!token ? <LoginDentist /> : <Navigate to="/" replace />}
+        />
 
-        {/* <Route path="/" element={<ProtectedRoute roles={["customer"]} />}>
-          <Route path="customer-dashboard" element={<CustomerDashboard />} />
-        </Route> */}
-
-        <Route path="/" element={<ProtectedRoute roles={["dentist"]} />}>
+        <Route element={<ProtectedRoute roles={["Dentist"]} />}>
           <Route path="dentist-account" element={<DentistAccount />} />
           <Route path="dentist-appointment" element={<DentistAppointment />} />
           <Route
@@ -43,20 +48,25 @@ const AppRoutes = () => {
           />
         </Route>
 
-        <Route path="/" element={<ProtectedRoute roles={["Customer"]} />}>
-          <Route path="create-appointment" element={<CreateAppointment />} />
+        <Route element={<ProtectedRoute roles={["Manager"]} />}>
+          <Route path="manager-account" element={<ManagerAccount />} />
         </Route>
 
-        <Route path="/customer-account" element={<CustomerAccount />} />
-        <Route path="/customer-patients" element={<CustomerPatients />} />
-        <Route
-          path="/customer-booking/:patientId"
-          element={<CustomerBooking />}
-        />
-        <Route path="/cus-edit-pat/:patientId" element={<CusEditPat />} />
-        <Route path="/customer-new-patient" element={<CustomerNewPatient />} />
-        <Route path="/customer-appointment" element={<CustomerAppointment />} />
-        <Route path="/cus-app-details/:appId" element={<CusAppDetails />} />
+        <Route element={<ProtectedRoute roles={["Customer"]} />}>
+          <Route path="customer-account" element={<CustomerAccount />} />
+          <Route path="customer-patients" element={<CustomerPatients />} />
+          <Route
+            path="customer-booking/:patientId"
+            element={<CustomerBooking />}
+          />
+          <Route path="cus-edit-pat/:patientId" element={<CusEditPat />} />
+          <Route path="customer-new-patient" element={<CustomerNewPatient />} />
+          <Route
+            path="customer-appointment"
+            element={<CustomerAppointment />}
+          />
+          <Route path="cus-app-details/:appId" element={<CusAppDetails />} />
+        </Route>
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
