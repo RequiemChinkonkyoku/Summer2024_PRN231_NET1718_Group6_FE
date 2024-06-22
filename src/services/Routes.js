@@ -17,7 +17,9 @@ import LoginDentist from "../pages/LoginDentist";
 import DentistAccount from "../pages/dentist-pages/DentistAccount";
 import CusEditPat from "../pages/customer-pages/CusEditPat";
 import ManagerAccount from "../pages/manager-pages/ManagerAccount";
+import ManagerDentList from "../pages/manager-pages/ManagerDentList";
 import { Navigate } from "react-router-dom";
+import ManagerDentDetails from "../pages/manager-pages/ManagerDentDetails";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -50,6 +52,11 @@ const AppRoutes = () => {
 
         <Route element={<ProtectedRoute roles={["Manager"]} />}>
           <Route path="manager-account" element={<ManagerAccount />} />
+          <Route path="manager-dent-list" element={<ManagerDentList />} />
+          <Route
+            path="manager-dent-details/:dentistId"
+            element={<ManagerDentDetails />}
+          />
         </Route>
 
         <Route element={<ProtectedRoute roles={["Customer"]} />}>

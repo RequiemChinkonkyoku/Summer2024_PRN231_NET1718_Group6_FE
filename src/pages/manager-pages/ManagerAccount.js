@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import SidebarDent from "../../components/SidebarDent";
+import SidebarMana from "../../components/SidebarMana";
 import DashboardHead from "../../components/DashboardHead";
 
 const ManagerAccount = () => {
@@ -9,7 +9,7 @@ const ManagerAccount = () => {
     <div>
       <DashboardHead />
       <body class="g-sidenav-show  bg-gray-200">
-        <SidebarDent />
+        <SidebarMana />
       </body>
     </div>
   );

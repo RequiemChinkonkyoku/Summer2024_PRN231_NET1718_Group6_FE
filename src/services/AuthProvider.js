@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("token", token);
       try {
         const decodedToken = jwtDecode(token);
-        setUser(decodedToken); // Assuming decoded token contains user info including role
+        setUser({ role: decodedToken.role });
       } catch (error) {
         console.error("Invalid token", error);
         setToken(null);
