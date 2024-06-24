@@ -92,13 +92,13 @@ const CustomerPatients = () => {
                             <tr>
                               <td>
                                 <div class="d-flex px-2 py-1">
-                                  <div>
+                                  {/* <div>
                                     <img
                                       src="https://preview.redd.it/v7by39tw8owb1.jpg?auto=webp&s=5f2c19aa7ed4036eaf421c28858500edcd734e8d"
                                       class="avatar avatar-sm me-3 border-radius-lg"
                                       alt="user2"
                                     />
-                                  </div>
+                                  </div> */}
                                   <div class="d-flex flex-column justify-content-center">
                                     <h6 class="mb-0 text-sm">{patient.name}</h6>
                                   </div>
@@ -148,23 +148,25 @@ const CustomerPatients = () => {
                                   </span>
                                 </Link>
                               </td>
-                              <td class="align-middle text-center">
-                                <input
-                                  type="hidden"
-                                  value={patient.patientId}
-                                />
-                                <Link
-                                  key={patient.patientId}
-                                  to={`/customer-booking/${patient.patientId}`}
-                                  class="text-secondary font-weight-bold text-xs"
-                                  data-toggle="tooltip"
-                                  data-original-title="Book for patient"
-                                >
-                                  <span class="btn bg-gradient-info mb-0">
-                                    Book
-                                  </span>
-                                </Link>
-                              </td>
+                              {patient.status === 1 && (
+                                <td class="align-middle text-center">
+                                  <input
+                                    type="hidden"
+                                    value={patient.patientId}
+                                  />
+                                  <Link
+                                    key={patient.patientId}
+                                    to={`/customer-booking/${patient.patientId}`}
+                                    class="text-secondary font-weight-bold text-xs"
+                                    data-toggle="tooltip"
+                                    data-original-title="Book for patient"
+                                  >
+                                    <span class="btn bg-gradient-info mb-0">
+                                      Book
+                                    </span>
+                                  </Link>
+                                </td>
+                              )}
                             </tr>
                           ))}
                         </tbody>

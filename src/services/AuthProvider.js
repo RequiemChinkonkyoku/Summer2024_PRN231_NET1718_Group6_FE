@@ -66,13 +66,33 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const registerCust = async (email, password) => {
+    try {
+      const response = await axios.post("/Account/customer-register", {
+        email,
+        password,
+      });
+    } catch (error) {
+      console.error("Register failed", error);
+      throw new Error("Register failed");
+    }
+  };
+
   const logout = () => {
     setToken(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ token, user, loginCust, loginDent, loginEmpl, logout }}
+      value={{
+        token,
+        user,
+        loginCust,
+        loginDent,
+        loginEmpl,
+        registerCust,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
