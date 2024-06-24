@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
 import axios from "../axiosConfig";
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { format, startOfWeek, addDays } from "date-fns";
 
@@ -10,7 +10,7 @@ import "../assets/css/nucleo-svg.css"; // Local CSS file for SVGs
 import "../assets/css/material-dashboard.css"; // Local CSS for material dashboard
 import "../assets/css/material-kit.css";
 
-const ScheduleTable = ({ treatment }, { onDataChange }) => {
+const ScheduleTable = ({ treatment }) => {
   const [weekDates, setWeekDates] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -44,12 +44,14 @@ const ScheduleTable = ({ treatment }, { onDataChange }) => {
     }
   }, [treatmentId, token, weekDates, treatment]);
 
+  const [date, setDate] = useState("");
   const handleDateChange = (date) => {
     const startOfSelectedWeek = startOfWeek(date, { weekStartsOn: 0 }); // Start week on Sunday
     const week = Array.from({ length: 7 }, (_, i) =>
       addDays(startOfSelectedWeek, i)
     );
     setWeekDates(week);
+    setDate(date);
   };
 
   const timeslotMap = {
@@ -101,6 +103,7 @@ const ScheduleTable = ({ treatment }, { onDataChange }) => {
         dateFormat="yyyy/MM/dd"
         placeholderText="Choose a date"
         customInput={<CustomInput />}
+        value={date}
       />
 
       <h5>Select a slot</h5>
@@ -143,7 +146,9 @@ const ScheduleTable = ({ treatment }, { onDataChange }) => {
                           <td
                             key={colIndex}
                             class="align-middle text-center text-sm"
-                            onClick={() => handleCellClick(date, timeslot)}
+                            onClick={() => {
+                              handleCellClick(date, timeslot);
+                            }}
                           >
                             {status === "available" && (
                               <span class="badge badge-sm bg-gradient-success">
