@@ -20,6 +20,7 @@ import ManagerAccount from "../pages/manager-pages/ManagerAccount";
 import ManagerDentList from "../pages/manager-pages/ManagerDentList";
 import { Navigate } from "react-router-dom";
 import ManagerDentDetails from "../pages/manager-pages/ManagerDentDetails";
+import ManaNewDent from "../pages/manager-pages/ManaNewDent";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -57,6 +58,7 @@ const AppRoutes = () => {
             path="manager-dent-details/:dentistId"
             element={<ManagerDentDetails />}
           />
+          <Route path="mana-new-dent" element={<ManaNewDent />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={["Customer"]} />}>

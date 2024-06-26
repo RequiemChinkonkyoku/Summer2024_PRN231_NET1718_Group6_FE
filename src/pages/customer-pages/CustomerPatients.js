@@ -38,9 +38,7 @@ const CustomerPatients = () => {
                 <div class="card my-4">
                   <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3">
-                        Your Patients
-                      </h6>
+                      <h6 class="text-white text-capitalize ps-3">Members</h6>
                     </div>
                   </div>
                   <div class="card-body px-0 pb-2">
@@ -55,7 +53,7 @@ const CustomerPatients = () => {
                             class="btn bg-gradient-dark mb-0"
                           >
                             <i class="material-icons text-sm">add</i>
-                            &nbsp;&nbsp;Add New Patient
+                            &nbsp;&nbsp;Add New Member
                           </Link>
                         </div>
                       </div>
@@ -68,7 +66,7 @@ const CustomerPatients = () => {
                         <thead>
                           <tr>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Patient Name
+                              Name
                             </th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                               Age

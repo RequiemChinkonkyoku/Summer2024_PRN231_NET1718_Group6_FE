@@ -54,7 +54,7 @@ const Navbar = () => {
           id="navigation"
         >
           <ul class="navbar-nav navbar-nav-hover ms-auto">
-            <li class="nav-item dropdown dropdown-hover mx-2">
+            {/* <li class="nav-item dropdown dropdown-hover mx-2">
               <a
                 class="nav-link ps-2 d-flex cursor-pointer align-items-center"
                 id="dropdownMenuPages"
@@ -701,7 +701,7 @@ const Navbar = () => {
                   </div>
                 </div>
               </ul>
-            </li>
+            </li> */}
 
             {token && (
               <li class="nav-item my-auto ms-3 ms-lg-0">

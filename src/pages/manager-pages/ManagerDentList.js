@@ -48,7 +48,10 @@ const ManagerDentList = () => {
                           <h6 class="mb-0"></h6>
                         </div>
                         <div class="col-6 text-end">
-                          <Link to="/..." class="btn bg-gradient-dark mb-0">
+                          <Link
+                            to="/mana-new-dent"
+                            class="btn bg-gradient-dark mb-0"
+                          >
                             <i class="material-icons text-sm">add</i>
                             &nbsp;&nbsp;Add New Dentist
                           </Link>
