@@ -17,6 +17,8 @@ import CusAppDetails from "../pages/customer-pages/CusAppDetails";
 import DentistAppDetails from "../pages/dentist-pages/DentistAppDetails";
 import LoginDentist from "../pages/LoginDentist";
 import DentistAccount from "../pages/dentist-pages/DentistAccount";
+import CreatePayment from "../pages/customer-pages/CreatePayment";
+import MomoPaymentCallback from "../pages/customer-pages/MomoPaymentCallback";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -55,6 +57,8 @@ const AppRoutes = () => {
         <Route path="/customer-new-patient" element={<CustomerNewPatient />} />
         <Route path="/customer-appointment" element={<CustomerAppointment />} />
         <Route path="/cus-app-details" element={<CusAppDetails />} />
+        <Route path="/create-payment/:appId" element={<CreatePayment />} />
+        <Route path="/momo-payment-callback" element={<MomoPaymentCallback />} />
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
