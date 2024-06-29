@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import axios from "../axiosConfig"; // Adjust the path accordingly
+import axios from "../axiosConfig";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -11,12 +12,17 @@ export const AuthProvider = ({ children }) => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       localStorage.setItem("token", token);
-      console.log("Token set in local storage and axios headers:", token); // Debug log
-      // You can also fetch user data here if needed
+      try {
+        const decodedToken = jwtDecode(token);
+        setUser({ role: decodedToken.role });
+      } catch (error) {
+        console.error("Invalid token", error);
+        setToken(null);
+        setUser(null);
+      }
     } else {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem("token");
-      console.log("Token removed from local storage and axios headers"); // Debug log
       setUser(null);
     }
   }, [token]);
@@ -27,7 +33,6 @@ export const AuthProvider = ({ children }) => {
         email,
         password,
       });
-      console.log("Login response:", response.data); // Debug log
       setToken(response.data.token);
     } catch (error) {
       console.error("Login failed", error);
@@ -41,11 +46,35 @@ export const AuthProvider = ({ children }) => {
         email,
         password,
       });
-      console.log("Login response:", response.data); // Debug log
       setToken(response.data.token);
     } catch (error) {
       console.error("Login failed", error);
       throw new Error("Login failed");
+    }
+  };
+
+  const loginEmpl = async (email, password) => {
+    try {
+      const response = await axios.post("/Account/employee-login", {
+        email,
+        password,
+      });
+      setToken(response.data.token);
+    } catch (error) {
+      console.error("Login failed", error);
+      throw new Error("Login failed");
+    }
+  };
+
+  const registerCust = async (email, password) => {
+    try {
+      const response = await axios.post("/Account/customer-register", {
+        email,
+        password,
+      });
+    } catch (error) {
+      console.error("Register failed", error);
+      throw new Error("Register failed");
     }
   };
 
@@ -54,7 +83,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, user, loginCust, loginDent, logout }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        user,
+        loginCust,
+        loginDent,
+        loginEmpl,
+        registerCust,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

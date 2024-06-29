@@ -2,23 +2,21 @@ import React, { useImperativeHandle, useState } from "react";
 import axios from "../../axiosConfig";
 import { useParams } from "react-router-dom";
 
-import SidebarDent from "../../components/SidebarDent";
 import DashboardHead from "../../components/DashboardHead";
 import NavbarDash from "../../components/NavbarDash";
 import FooterDash from "../../components/FooterDash";
+import SidebarMana from "../../components/SidebarMana";
 
-const DentistAppDetails = () => {
-  const { appId } = useParams();
-  const [appointment, setAppointment] = React.useState(null);
-  const [treatmentPrice, setTreatmentPrice] = React.useState(0);
+const ManagerDentDetails = () => {
+  const { dentistId } = useParams();
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [dentist, setDentist] = useState([]);
 
   React.useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios.get(`/Appointment/get-app-by-id/${appId}`).then((response) => {
-        setAppointment(response.data);
-
+      axios.get(`/Dentist/get-dentist-by-id/${dentistId}`).then((response) => {
+        setDentist(response.data);
         console.log(response.data);
       });
     }
@@ -28,7 +26,7 @@ const DentistAppDetails = () => {
     <div>
       <DashboardHead />
       <body class="g-sidenav-show  bg-gray-200">
-        <SidebarDent />
+        <SidebarMana />
         <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
           <NavbarDash />
           <div class="container-fluid py-4">
@@ -36,37 +34,58 @@ const DentistAppDetails = () => {
               <div class="col-md-6">
                 <div class="card h-100">
                   <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                    <div class="bg-gradient-success shadow-info border-radius-lg pt-4 pb-3">
                       <h4 class="text-white text-capitalize ps-3">
-                        Appointment Details
+                        Dentist Details
                       </h4>
                     </div>
                   </div>
                   <div className="card-body">
                     <div className="row">
                       <div className="col-md-6">
-                        <h4>Patient Information</h4>
+                        <h4>Dentist Information</h4>
                         <p className="mb-1">
-                          <strong>Name:</strong> {appointment?.patient?.name}
+                          <strong>ID:</strong> {dentist.dentistId}
                         </p>
                         <p className="mb-1">
-                          <strong>Age:</strong> {appointment?.patient?.age}
+                          <strong>Name:</strong> {dentist.name}
                         </p>
                         <p className="mb-1">
-                          <strong>Gender:</strong>{" "}
-                          {appointment?.patient?.gender === 1
-                            ? "Male"
-                            : "Female"}
+                          <strong>Email:</strong> {dentist.email}
                         </p>
                         <p className="mb-1">
-                          <strong>Address:</strong>{" "}
-                          {appointment?.patient?.address}
+                          <strong>Contract:</strong>{" "}
+                          {dentist.contractType === "Full-time" ? (
+                            <span class="badge badge-sm bg-gradient-info">
+                              {dentist.contractType}
+                            </span>
+                          ) : dentist.contractType === "Part-time" ? (
+                            <span class="badge badge-sm bg-gradient-warning">
+                              {dentist.contractType}
+                            </span>
+                          ) : (
+                            "none"
+                          )}
+                        </p>
+                        <p className="mb-1">
+                          <strong>Status:</strong>{" "}
+                          {dentist.status === 1 ? (
+                            <span class="badge badge-sm bg-gradient-success">
+                              Active
+                            </span>
+                          ) : dentist.status === 0 ? (
+                            <span class="badge badge-sm bg-gradient-secondary">
+                              Inactive
+                            </span>
+                          ) : (
+                            "none"
+                          )}
                         </p>
                       </div>
                     </div>
                     <hr color="black" />
-                    <h4>Date & Time</h4>
-                    <div className="flex mb-3">
+                    {/* <h4>Date & Time</h4> */}
+                    {/* <div className="flex mb-3">
                       <div class="d-flex px-2 py-1">
                         <div>
                           <img
@@ -80,11 +99,11 @@ const DentistAppDetails = () => {
                           {appointment?.timeSlot} - 8:00 AM
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
-              <div class="col-md-6">
+              {/* <div class="col-md-6">
                 <div class="card h-100">
                   <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
@@ -185,7 +204,7 @@ const DentistAppDetails = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <FooterDash />
           </div>
@@ -195,4 +214,4 @@ const DentistAppDetails = () => {
   );
 };
 
-export default DentistAppDetails;
+export default ManagerDentDetails;

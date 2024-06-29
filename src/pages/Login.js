@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "../axiosConfig";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { jwtDecode } from "jwt-decode";
 
 import MainHead from "../components/MainHead";
 import NavbarTransparent from "../components/NavbarTransparent";
@@ -24,15 +27,41 @@ const Login = () => {
     e.preventDefault();
     try {
       await loginCust(email, password);
-      navigate("/customer-account");
+      const token = localStorage.getItem("token");
+      console.log("Retrieved token from localStorage:", token);
+      if (!token) {
+        throw new Error("Token not found");
+      }
+      const decodedToken = jwtDecode(token);
+      const role = decodedToken.role;
+      console.log("Decoded token role:", role);
+      if (role === "Customer") {
+        navigate("/customer-account");
+      }
     } catch (error) {
+      notifyApiFailed();
       console.error("Login failed", error);
       // Handle login failure (e.g., show a message to the user)
     }
   };
 
+  const notifyApiFailed = () => {
+    toast.error("Login failed", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+  };
+
   return (
     <div>
+      <ToastContainer />
       <MainHead />
       <body class="sign-in-basic">
         <NavbarTransparent />

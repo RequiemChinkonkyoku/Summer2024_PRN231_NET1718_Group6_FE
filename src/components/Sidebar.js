@@ -58,7 +58,7 @@ const Sidebar = () => {
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">table_view</i>
               </div>
-              <span class="nav-link-text ms-1">Patients</span>
+              <span class="nav-link-text ms-1">Members</span>
             </Link>
           </li>
           <li class="nav-item">
@@ -82,7 +82,7 @@ const Sidebar = () => {
       <div class="sidenav-footer position-absolute w-100 bottom-0 ">
         <div class="mx-3">
           <form role="form" onSubmit={handleSubmit}>
-            <button class="btn bg-gradient-info w-100" type="submit">
+            <button class="btn bg-gradient-danger w-100" type="submit">
               Log out
             </button>
           </form>

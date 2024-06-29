@@ -5,7 +5,7 @@ import logo from "../assets/img/logo-ct.png";
 
 import { useAuth } from "../services/AuthProvider";
 
-const SidebarDent = () => {
+const SidebarMana = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ const SidebarDent = () => {
       <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <Link class="nav-link text-white " to="/dentist-account">
+            <Link class="nav-link text-white " to="/manager-account">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                 <i class="material-icons opacity-10">person</i>
               </div>
@@ -54,11 +54,11 @@ const SidebarDent = () => {
             </Link>
           </li>
           <li class="nav-item">
-            <Link class="nav-link text-white " to="/dentist-appointment">
+            <Link class="nav-link text-white " to="/manager-dent-list">
               <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                <i class="material-icons opacity-10">calendar_month</i>
+                <i class="material-icons opacity-10">diversity_1</i>
               </div>
-              <span class="nav-link-text ms-1">Appointments</span>
+              <span class="nav-link-text ms-1">Dentist Management</span>
             </Link>
           </li>
         </ul>
@@ -76,4 +76,4 @@ const SidebarDent = () => {
   );
 };
 
-export default SidebarDent;
+export default SidebarMana;

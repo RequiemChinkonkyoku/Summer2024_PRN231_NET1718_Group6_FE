@@ -9,11 +9,39 @@ import "../assets/css/nucleo-icons.css"; // Local CSS file for icons
 import "../assets/css/nucleo-svg.css"; // Local CSS file for SVGs
 import "../assets/css/material-dashboard.css"; // Local CSS for material dashboard
 import "../assets/css/material-kit.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../services/AuthProvider";
 
 import Scripts from "../components/Scripts";
 
 const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { registerCust } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await registerCust(email, password);
+      // const token = localStorage.getItem("token");
+      // console.log("Retrieved token from localStorage:", token);
+      // if (!token) {
+      //   throw new Error("Token not found");
+      // }
+      // const decodedToken = jwtDecode(token);
+      // const role = decodedToken.role;
+      // console.log("Decoded token role:", role);
+      // if (role === "Customer") {
+      //   navigate("/customer-account");
+      // }
+    } catch (error) {
+      // notifyApiFailed();
+      console.error("Register failed", error);
+      // Handle login failure (e.g., show a message to the user)
+    }
+  };
+
   return (
     <div>
       <MainHead />
@@ -47,21 +75,27 @@ const Register = () => {
                     </div>
                   </div>
                   <div class="card-body">
-                    <form role="form" class="text-start">
+                    <form
+                      role="form"
+                      class="text-start"
+                      onSubmit={handleSubmit}
+                    >
                       <div class="input-group input-group-outline my-3">
-                        {/* <label class="form-label">Email</label> */}
                         <input
                           type="email"
                           class="form-control"
                           placeholder="Email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
                       <div class="input-group input-group-outline mb-3">
-                        {/* <label class="form-label">Password</label> */}
                         <input
                           type="password"
                           class="form-control"
                           placeholder="Password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                         />
                       </div>
                       <div class="form-check form-check-info text-start ps-0">
@@ -78,7 +112,7 @@ const Register = () => {
                       </div>
                       <div class="text-center">
                         <button
-                          type="button"
+                          type="submit"
                           class="btn bg-gradient-info w-100 my-4 mb-2"
                         >
                           Register

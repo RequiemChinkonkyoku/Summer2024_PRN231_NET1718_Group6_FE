@@ -1,10 +1,27 @@
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
+import { useAuth } from "../services/AuthProvider";
 
 import downArrowDark from "../assets/img/down-arrow-dark.svg";
 import downArrow from "../assets/img/down-arrow.svg";
 
 const Navbar = () => {
+  const { token, user } = useAuth();
+
+  const getProfileLink = () => {
+    if (!user) return "/login";
+    switch (user.role) {
+      case "Admin":
+        return "/admin-account";
+      case "Manager":
+        return "/manager-account";
+      case "Dentist":
+        return "/dentist-account";
+      default:
+        return "/customer-account";
+    }
+  };
+
   return (
     <nav class="navbar navbar-expand-lg  blur border-radius-xl top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
       <div class="container-fluid px-0">
@@ -37,7 +54,7 @@ const Navbar = () => {
           id="navigation"
         >
           <ul class="navbar-nav navbar-nav-hover ms-auto">
-            <li class="nav-item dropdown dropdown-hover mx-2">
+            {/* <li class="nav-item dropdown dropdown-hover mx-2">
               <a
                 class="nav-link ps-2 d-flex cursor-pointer align-items-center"
                 id="dropdownMenuPages"
@@ -684,15 +701,28 @@ const Navbar = () => {
                   </div>
                 </div>
               </ul>
-            </li>
-            <li class="nav-item my-auto ms-3 ms-lg-0">
-              <Link
-                to="/login"
-                class="btn btn-sm  bg-gradient-info  mb-0 me-1 mt-2 mt-md-0"
-              >
-                LOGIN
-              </Link>
-            </li>
+            </li> */}
+
+            {token && (
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <Link
+                  to={getProfileLink()}
+                  class="btn btn-sm  bg-gradient-info  mb-0 me-1 mt-2 mt-md-0"
+                >
+                  PROFILE
+                </Link>
+              </li>
+            )}
+            {!token && (
+              <li class="nav-item my-auto ms-3 ms-lg-0">
+                <Link
+                  to="/login"
+                  class="btn btn-sm  bg-gradient-info  mb-0 me-1 mt-2 mt-md-0"
+                >
+                  LOGIN
+                </Link>
+              </li>
+            )}
           </ul>
         </div>
       </div>
