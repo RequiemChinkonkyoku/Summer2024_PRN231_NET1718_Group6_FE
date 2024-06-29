@@ -21,6 +21,8 @@ import ManagerDentList from "../pages/manager-pages/ManagerDentList";
 import { Navigate } from "react-router-dom";
 import ManagerDentDetails from "../pages/manager-pages/ManagerDentDetails";
 import ManaNewDent from "../pages/manager-pages/ManaNewDent";
+import CreatePayment from "../pages/customer-pages/CreatePayment";
+import MomoPaymentCallback from "../pages/customer-pages/MomoPaymentCallback";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -75,6 +77,11 @@ const AppRoutes = () => {
             element={<CustomerAppointment />}
           />
           <Route path="cus-app-details/:appId" element={<CusAppDetails />} />
+          <Route path="/create-payment/:appId" element={<CreatePayment />} />
+          <Route
+            path="/momo-payment-callback"
+            element={<MomoPaymentCallback />}
+          />
         </Route>
 
         <Route path="*" element={<div>Page Not Found</div>} />
