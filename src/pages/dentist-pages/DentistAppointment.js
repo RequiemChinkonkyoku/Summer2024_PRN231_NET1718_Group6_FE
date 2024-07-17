@@ -19,10 +19,16 @@ const DentistAppointment = () => {
       axios
         .post("/Appointment/get-current-appointment-list")
         .then((response) => {
-          setAppointments(response.data);
+          const sortedAppointments = response.data.sort((a, b) => {
+            const dateComparison =
+              new Date(a.arrivalDate) - new Date(b.arrivalDate);
+            if (dateComparison !== 0) return dateComparison;
+            return a.timeSlot - b.timeSlot; // Assuming timeSlot is a number
+          });
+          setAppointments(sortedAppointments);
         });
     }
-  }, []);
+  }, [token]);
 
   if (appointments.length === 0)
     return (
@@ -30,6 +36,17 @@ const DentistAppointment = () => {
         <span>no appointment</span>
       </div>
     );
+
+  const timeslotMap = {
+    1: "09:00 - 10:00",
+    2: "10:00 - 11:00",
+    3: "11:00 - 12:00",
+    4: "12:00 - 13:00",
+    5: "13:00 - 14:00",
+    6: "14:00 - 15:00",
+    7: "15:00 - 16:00",
+    8: "16:00 - 17:00",
+  };
 
   return (
     <div>
@@ -100,7 +117,7 @@ const DentistAppointment = () => {
                               </td>
                               <td class="align-middle text-center">
                                 <p class="text-xs font-weight-bold mb-0">
-                                  {app.timeSlot}
+                                  {timeslotMap[app.timeSlot]}
                                 </p>
                               </td>
                               <td class="align-middle text-center text-sm">
