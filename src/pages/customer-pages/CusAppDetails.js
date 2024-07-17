@@ -1,6 +1,6 @@
 import React, { useImperativeHandle, useState } from "react";
 import axios from "../../axiosConfig";
-import { useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import Sidebar from "../../components/Sidebar";
 import DashboardHead from "../../components/DashboardHead";
@@ -12,19 +12,27 @@ const CusAppDetails = () => {
   const [appointment, setAppointment] = React.useState(null);
   const [treatmentPrice, setTreatmentPrice] = React.useState(0);
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios
-        .get(`/Appointment/get-app-by-id/${appId}`)
-        .then((response) => {
-          setAppointment(response.data);
+      axios.get(`/Appointment/get-app-by-id/${appId}`).then((response) => {
+        setAppointment(response.data);
 
-          console.log(response.data);
-        });
+        console.log(response.data);
+      });
     }
   }, []);
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    try {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      axios.delete(`/Appointment/cancel-appointment/${appId}`);
+      navigate("/customer-appointment");
+    } catch (error) {}
+  };
 
   return (
     <div>
@@ -48,10 +56,22 @@ const CusAppDetails = () => {
                     <div className="row">
                       <div className="col-md-6">
                         <h4>Patient Information</h4>
-                        <p className="mb-1"><strong>Name:</strong> {appointment?.patient?.name}</p>
-                        <p className="mb-1"><strong>Age:</strong> {appointment?.patient?.age}</p>
-                        <p className="mb-1"><strong>Gender:</strong> {appointment?.patient?.gender === 1 ? 'Male' : 'Female'}</p>
-                        <p className="mb-1"><strong>Address:</strong> {appointment?.patient?.address}</p>
+                        <p className="mb-1">
+                          <strong>Name:</strong> {appointment?.patient?.name}
+                        </p>
+                        <p className="mb-1">
+                          <strong>Age:</strong> {appointment?.patient?.age}
+                        </p>
+                        <p className="mb-1">
+                          <strong>Gender:</strong>{" "}
+                          {appointment?.patient?.gender === 1
+                            ? "Male"
+                            : "Female"}
+                        </p>
+                        <p className="mb-1">
+                          <strong>Address:</strong>{" "}
+                          {appointment?.patient?.address}
+                        </p>
                       </div>
                     </div>
                     <hr color="black" />
@@ -66,7 +86,8 @@ const CusAppDetails = () => {
                           />
                         </div>
                         <div class="d-flex flex-column justify-content-center">
-                          {appointment?.arrivalDate.split("T")[0]} - Slot {appointment?.timeSlot} - 8:00 AM
+                          {appointment?.arrivalDate.split("T")[0]} - Slot{" "}
+                          {appointment?.timeSlot} - 8:00 AM
                         </div>
                       </div>
                     </div>
@@ -86,35 +107,46 @@ const CusAppDetails = () => {
                     <div className="row">
                       <div className="col-md-12">
                         <h4>Selected Treatments</h4>
-                        {
-                          appointment?.appointmentDetails.map((detail) => (
-                            <div className="row mb-1">
-                              <div className="col-md-6">
-                                <p className="mb-1"><strong>{detail.treatment.name}</strong></p>
-                              </div>
-                              <div className="col-md-6">
-                                <p className="mb-1"><strong>{detail.treatment.price} VND</strong></p>
-                              </div>
+                        {appointment?.appointmentDetails.map((detail) => (
+                          <div className="row mb-1">
+                            <div className="col-md-6">
+                              <p className="mb-1">
+                                <strong>{detail.treatment.name}</strong>
+                              </p>
                             </div>
-                          ))}
+                            <div className="col-md-6">
+                              <p className="mb-1">
+                                <strong>{detail.treatment.price} VND</strong>
+                              </p>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                     <hr color="black" />
                     <div>
                       <div className="row">
                         <div className="col-md-6">
-                          <p className="mb-1"><strong>Booking Price</strong></p>
+                          <p className="mb-1">
+                            <strong>Booking Price</strong>
+                          </p>
                         </div>
                         <div className="col-md-6">
-                          <p className="mb-1">{appointment?.bookingPrice} VND</p>
+                          <p className="mb-1">
+                            {appointment?.bookingPrice} VND
+                          </p>
                         </div>
                       </div>
                       <div className="row">
                         <div className="col-md-6">
-                          <p className="mb-1"><strong>Service Price</strong></p>
+                          <p className="mb-1">
+                            <strong>Service Price</strong>
+                          </p>
                         </div>
                         <div className="col-md-6">
-                          <p className="mb-1">{appointment?.servicePrice} VND</p>
+                          <p className="mb-1">
+                            {appointment?.servicePrice} VND
+                          </p>
                         </div>
                       </div>
                       <div className="row">
@@ -122,30 +154,63 @@ const CusAppDetails = () => {
                           <h4 className="mb-1">Total Price</h4>
                         </div>
                         <div className="col-md-6">
-                          <h4 className="mb-1">{appointment?.totalPrice} VND</h4>
+                          <h4 className="mb-1">
+                            {appointment?.totalPrice} VND
+                          </h4>
                         </div>
                       </div>
                       <hr color="black" />
                       <div className="row">
                         <div className="col-md-6">
                           <h4>Appointment Status</h4>
-                        </div >
+                        </div>
                         <div className="col-md-6">
                           {appointment && (
-                            <span className={
-                              appointment.status === -1 ? "badge bg-gradient-danger me-2"
-                                : appointment.status === 0 ? "badge bg-gradient-secondary me-2"
-                                  : appointment.status === 1 ? "badge bg-gradient-info me-2"
-                                    : appointment.status === 2 ? "badge bg-gradient-success me-2"
-                                      : "badge bg-gradient-light me-2"
-                            }>
-                              {appointment.status === -1 ? "Unpaid"
-                                : appointment.status === 0 ? "Cancelled"
-                                  : appointment.status === 1 ? "Scheduled"
-                                    : appointment.status === 2 ? "Finished"
-                                      : "Unknown"}
+                            <span
+                              className={
+                                appointment.status === -1
+                                  ? "badge bg-gradient-danger me-2"
+                                  : appointment.status === 0
+                                  ? "badge bg-gradient-secondary me-2"
+                                  : appointment.status === 1
+                                  ? "badge bg-gradient-info me-2"
+                                  : appointment.status === 2
+                                  ? "badge bg-gradient-success me-2"
+                                  : "badge bg-gradient-light me-2"
+                              }
+                            >
+                              {appointment.status === -1
+                                ? "Unpaid"
+                                : appointment.status === 0
+                                ? "Cancelled"
+                                : appointment.status === 1
+                                ? "Scheduled"
+                                : appointment.status === 2
+                                ? "Finished"
+                                : "Unknown"}
                             </span>
                           )}
+                          <div>
+                            {appointment && appointment.status === -1 && (
+                              <button
+                                type="button"
+                                class="btn bg-gradient-info"
+                              >
+                                <Link
+                                  to={`/create-payment/${appId}`}
+                                  key={appId}
+                                >
+                                  PAY
+                                </Link>
+                              </button>
+                            )}
+                          </div>
+
+                          <form onSubmit={handleCancel} type="form">
+                            <button type="submit" class="btn bg-gradient-info">
+                              CANCEL
+                            </button>
+                          </form>
                         </div>
                       </div>
                     </div>
@@ -157,7 +222,7 @@ const CusAppDetails = () => {
           </div>
         </main>
       </body>
-    </div >
+    </div>
   );
 };
 
