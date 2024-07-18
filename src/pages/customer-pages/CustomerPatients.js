@@ -15,13 +15,25 @@ const CustomerPatients = () => {
   const [patientID, setPatientID] = React.useState("");
 
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [error, setError] = useState(null);
 
   React.useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      axios.get("/Patient/get-patient-list-by-customer").then((response) => {
-        setPatients(response.data);
-      });
+      axios
+        .get("/Patient/get-patient-list-by-customer")
+
+        .then((response) => {
+          setPatients(response.data);
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 400) {
+            setError("No data");
+            console.log(error);
+          } else {
+            console.error("Error fetching medical record:", error);
+          }
+        });
     }
   }, []);
 
@@ -61,92 +73,84 @@ const CustomerPatients = () => {
                     <div class="row">
                       <br />
                     </div>
-                    <div class="table-responsive p-0">
-                      <table class="table align-items-center mb-0">
-                        <thead>
-                          <tr>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Name
-                            </th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                              Age
-                            </th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                              Gender
-                            </th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Status
-                            </th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Details
-                            </th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                              Booking
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {patients.map((patient) => (
+                    {error && (
+                      <div>
+                        <h5>
+                          No members yet. Click "ADD NEW MEMBER" to get started.
+                        </h5>
+                      </div>
+                    )}
+                    {!error && (
+                      <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                          <thead>
                             <tr>
-                              <td>
-                                <div class="d-flex px-2 py-1">
-                                  {/* <div>
+                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Name
+                              </th>
+                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Year of Birth
+                              </th>
+                              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                Gender
+                              </th>
+                              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Status
+                              </th>
+                              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Details
+                              </th>
+                              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Booking
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {patients.map((patient) => (
+                              <tr>
+                                <td>
+                                  <div class="d-flex px-2 py-1">
+                                    {/* <div>
                                     <img
                                       src="https://preview.redd.it/v7by39tw8owb1.jpg?auto=webp&s=5f2c19aa7ed4036eaf421c28858500edcd734e8d"
                                       class="avatar avatar-sm me-3 border-radius-lg"
                                       alt="user2"
                                     />
                                   </div> */}
-                                  <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">{patient.name}</h6>
+                                    <div class="d-flex flex-column justify-content-center">
+                                      <h6 class="mb-0 text-sm">
+                                        {patient.name}
+                                      </h6>
+                                    </div>
                                   </div>
-                                </div>
-                              </td>
-                              <td>
-                                <p class="text-xs font-weight-bold mb-0">
-                                  {patient.age}
-                                </p>
-                              </td>
-                              <td>
-                                <p class="text-xs font-weight-bold mb-0">
-                                  {patient.gender === 1
-                                    ? "Male"
-                                    : patient.gender === 2
-                                    ? "Female"
-                                    : "LGBT"}
-                                </p>
-                              </td>
-                              <td class="align-middle text-center text-sm">
-                                {patient.status === 1 ? (
-                                  <span class="badge badge-sm bg-gradient-success">
-                                    Active
-                                  </span>
-                                ) : patient.status === 0 ? (
-                                  <span class="badge badge-sm bg-gradient-secondary">
-                                    Inactive
-                                  </span>
-                                ) : (
-                                  "none"
-                                )}
-                              </td>
-                              <td class="align-middle text-center">
-                                <input
-                                  type="hidden"
-                                  value={patient.patientId}
-                                />
-                                <Link
-                                  key={patient.patientId}
-                                  to={`/cus-edit-pat/${patient.patientId}`}
-                                  class="text-secondary font-weight-bold text-xs"
-                                  data-toggle="tooltip"
-                                  data-original-title="Book for patient"
-                                >
-                                  <span class="btn bg-gradient-secondary mb-0">
-                                    Edit
-                                  </span>
-                                </Link>
-                              </td>
-                              {patient.status === 1 && (
+                                </td>
+                                <td>
+                                  <p class="text-xs font-weight-bold mb-0">
+                                    {patient.yearOfBirth}
+                                  </p>
+                                </td>
+                                <td>
+                                  <p class="text-xs font-weight-bold mb-0">
+                                    {patient.gender === 1
+                                      ? "Male"
+                                      : patient.gender === 2
+                                      ? "Female"
+                                      : "LGBT"}
+                                  </p>
+                                </td>
+                                <td class="align-middle text-center text-sm">
+                                  {patient.status === 1 ? (
+                                    <span class="badge badge-sm bg-gradient-success">
+                                      Active
+                                    </span>
+                                  ) : patient.status === 0 ? (
+                                    <span class="badge badge-sm bg-gradient-secondary">
+                                      Inactive
+                                    </span>
+                                  ) : (
+                                    "none"
+                                  )}
+                                </td>
                                 <td class="align-middle text-center">
                                   <input
                                     type="hidden"
@@ -154,22 +158,41 @@ const CustomerPatients = () => {
                                   />
                                   <Link
                                     key={patient.patientId}
-                                    to={`/customer-booking/${patient.patientId}`}
+                                    to={`/cus-edit-pat/${patient.patientId}`}
                                     class="text-secondary font-weight-bold text-xs"
                                     data-toggle="tooltip"
                                     data-original-title="Book for patient"
                                   >
-                                    <span class="btn bg-gradient-info mb-0">
-                                      Book
+                                    <span class="btn bg-gradient-secondary mb-0">
+                                      Edit
                                     </span>
                                   </Link>
                                 </td>
-                              )}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                                {patient.status === 1 && (
+                                  <td class="align-middle text-center">
+                                    <input
+                                      type="hidden"
+                                      value={patient.patientId}
+                                    />
+                                    <Link
+                                      key={patient.patientId}
+                                      to={`/customer-booking/${patient.patientId}`}
+                                      class="text-secondary font-weight-bold text-xs"
+                                      data-toggle="tooltip"
+                                      data-original-title="Book for patient"
+                                    >
+                                      <span class="btn bg-gradient-info mb-0">
+                                        Book
+                                      </span>
+                                    </Link>
+                                  </td>
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

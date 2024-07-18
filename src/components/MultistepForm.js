@@ -180,7 +180,7 @@ const MultiStepForm = ({ id }) => {
   const [treatments, setTreatments] = React.useState([]);
   React.useEffect(() => {
     axios.get("/Treatment/get-all-treatment").then((response) => {
-      setTreatments(response.data);
+      setTreatments(response.data.value);
     });
   }, []);
 
