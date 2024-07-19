@@ -23,6 +23,9 @@ import ManagerDentDetails from "../pages/manager-pages/ManagerDentDetails";
 import ManaNewDent from "../pages/manager-pages/ManaNewDent";
 import CreatePayment from "../pages/customer-pages/CreatePayment";
 import MomoPaymentCallback from "../pages/customer-pages/MomoPaymentCallback";
+import ManaNewSchedule from "../pages/manager-pages/ManaNewSchedule";
+import ManagerTreatList from "../pages/manager-pages/ManageTreatList";
+import ManagerTreatDetails from "../pages/manager-pages/ManagerTreatDetails";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -61,6 +64,9 @@ const AppRoutes = () => {
             element={<ManagerDentDetails />}
           />
           <Route path="mana-new-dent" element={<ManaNewDent />} />
+          <Route path="mana-new-schedule" element={<ManaNewSchedule />} />
+          <Route path="mana-treat-list" element={<ManagerTreatList />} />
+          <Route path="mana-treat-details/:treatmentId" element={<ManagerTreatDetails />} />
         </Route>
 
         <Route element={<ProtectedRoute roles={["Customer"]} />}>

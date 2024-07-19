@@ -36,7 +36,7 @@ const MultiStepForm = ({ id }) => {
       // Add Class Active
       document
         .querySelectorAll("#progressbar li")
-        [Array.from(steps).indexOf(next_fs)].classList.add("active");
+      [Array.from(steps).indexOf(next_fs)].classList.add("active");
 
       // Show the next fieldset
       next_fs.style.display = "block";
@@ -79,7 +79,7 @@ const MultiStepForm = ({ id }) => {
       // Remove class active
       document
         .querySelectorAll("#progressbar li")
-        [Array.from(steps).indexOf(current_fs)].classList.remove("active");
+      [Array.from(steps).indexOf(current_fs)].classList.remove("active");
 
       // Show the previous fieldset
       previous_fs.style.display = "block";
@@ -108,7 +108,7 @@ const MultiStepForm = ({ id }) => {
       // Remove class active
       document
         .querySelectorAll("#progressbar li")
-        [Array.from(steps).indexOf(current_fs)].classList.remove("active");
+      [Array.from(steps).indexOf(current_fs)].classList.remove("active");
 
       // Show the previous fieldset
       previous_fs.style.display = "block";
@@ -137,7 +137,7 @@ const MultiStepForm = ({ id }) => {
       // Remove class active
       document
         .querySelectorAll("#progressbar li")
-        [Array.from(steps).indexOf(current_fs)].classList.remove("active");
+      [Array.from(steps).indexOf(current_fs)].classList.remove("active");
 
       // Show the previous fieldset
       previous_fs.style.display = "block";
@@ -174,13 +174,13 @@ const MultiStepForm = ({ id }) => {
       .then((response) => {
         setPatientName(response.data.name);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }, []);
 
   const [treatments, setTreatments] = React.useState([]);
   React.useEffect(() => {
     axios.get("/Treatment/get-all-treatment").then((response) => {
-      setTreatments(response.data);
+      setTreatments(response.data.value);
     });
   }, []);
 
@@ -223,7 +223,7 @@ const MultiStepForm = ({ id }) => {
         .catch((error) => {
           console.error("Error fetching dentists:", error);
         });
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const [dentist, setDentist] = useState("");
@@ -305,7 +305,7 @@ const MultiStepForm = ({ id }) => {
             console.error("Error fetching schedules:", error);
             console.log(treatmentId);
           });
-      } catch (e) {}
+      } catch (e) { }
     }
   }, [treatmentId, token, weekDates, treatment]);
 
@@ -336,7 +336,7 @@ const MultiStepForm = ({ id }) => {
     const schedule = schedules.find(
       (sch) =>
         format(new Date(sch.workDate), "yyyy-MM-dd") ===
-          format(date, "yyyy-MM-dd") &&
+        format(date, "yyyy-MM-dd") &&
         sch.timeSlot === timeslot &&
         sch.status === 1
     );
@@ -378,20 +378,20 @@ const MultiStepForm = ({ id }) => {
         .then((response) => {
           setPatientName(response.data.name);
         })
-        .catch((error) => {});
+        .catch((error) => { });
       axios
         .get(`/Treatment/get-treatment-by-id/${treatment}`)
         .then((response) => {
           setTreatmentName(response.data.name);
         })
-        .catch((error) => {});
+        .catch((error) => { });
       axios
         .get(`/Dentist/get-dentist-by-id/${dentist}`)
         .then((response) => {
           setDentistName(response.data.name);
         })
-        .catch((error) => {});
-    } catch (error) {}
+        .catch((error) => { });
+    } catch (error) { }
   };
 
   return (
@@ -526,8 +526,8 @@ const MultiStepForm = ({ id }) => {
                                   const cellStyle =
                                     status === "available"
                                       ? {
-                                          class: "badge badge-sm badge-success",
-                                        }
+                                        class: "badge badge-sm badge-success",
+                                      }
                                       : {};
                                   return (
                                     <td
@@ -558,9 +558,8 @@ const MultiStepForm = ({ id }) => {
                         type="text"
                         value={
                           selectedSlot.date && selectedSlot.timeslot
-                            ? `Date: ${selectedSlot.date}, Timeslot: ${
-                                timeslotMap[selectedSlot.timeslot]
-                              }, Status: ${selectedSlot.status}`
+                            ? `Date: ${selectedSlot.date}, Timeslot: ${timeslotMap[selectedSlot.timeslot]
+                            }, Status: ${selectedSlot.status}`
                             : ""
                         }
                         readOnly
@@ -677,9 +676,8 @@ const MultiStepForm = ({ id }) => {
                   readOnly
                   value={
                     selectedSlot.date && selectedSlot.timeslot
-                      ? `Date: ${selectedSlot.date}, Timeslot: ${
-                          timeslotMap[selectedSlot.timeslot]
-                        }, Status: ${selectedSlot.status}`
+                      ? `Date: ${selectedSlot.date}, Timeslot: ${timeslotMap[selectedSlot.timeslot]
+                      }, Status: ${selectedSlot.status}`
                       : ""
                   }
                 />
