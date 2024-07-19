@@ -23,6 +23,7 @@ import ManagerDentDetails from "../pages/manager-pages/ManagerDentDetails";
 import ManaNewDent from "../pages/manager-pages/ManaNewDent";
 import CreatePayment from "../pages/customer-pages/CreatePayment";
 import MomoPaymentCallback from "../pages/customer-pages/MomoPaymentCallback";
+import AccountVerification from "../pages/AccountVerification";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -43,6 +44,7 @@ const AppRoutes = () => {
           path="/login-dentist"
           element={!token ? <LoginDentist /> : <Navigate to="/" replace />}
         />
+        <Route path="/account-verification" element={<AccountVerification />} />
 
         <Route element={<ProtectedRoute roles={["Dentist"]} />}>
           <Route path="dentist-account" element={<DentistAccount />} />

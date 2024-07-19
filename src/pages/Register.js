@@ -1,44 +1,30 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../services/AuthProvider";
 
 import MainHead from "../components/MainHead";
 import NavbarTransparent from "../components/NavbarTransparent";
 import FooterTransparent from "../components/FooterTransparent";
-import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS
-import "../assets/css/nucleo-icons.css"; // Local CSS file for icons
-import "../assets/css/nucleo-svg.css"; // Local CSS file for SVGs
-import "../assets/css/material-dashboard.css"; // Local CSS for material dashboard
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../assets/css/nucleo-icons.css";
+import "../assets/css/nucleo-svg.css";
+import "../assets/css/material-dashboard.css";
 import "../assets/css/material-kit.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../services/AuthProvider";
-
-import Scripts from "../components/Scripts";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
   const { registerCust } = useAuth();
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await registerCust(email, password);
-      // const token = localStorage.getItem("token");
-      // console.log("Retrieved token from localStorage:", token);
-      // if (!token) {
-      //   throw new Error("Token not found");
-      // }
-      // const decodedToken = jwtDecode(token);
-      // const role = decodedToken.role;
-      // console.log("Decoded token role:", role);
-      // if (role === "Customer") {
-      //   navigate("/customer-account");
-      // }
+      setMessage("A verification email has been sent to your inbox.");
     } catch (error) {
-      // notifyApiFailed();
       console.error("Register failed", error);
-      // Handle login failure (e.g., show a message to the user)
+      setMessage("Registration failed. Please try again.");
     }
   };
 
@@ -75,6 +61,11 @@ const Register = () => {
                     </div>
                   </div>
                   <div class="card-body">
+                    {message && (
+                      <div class="alert alert-info" role="alert">
+                        {message}
+                      </div>
+                    )}
                     <form
                       role="form"
                       class="text-start"
