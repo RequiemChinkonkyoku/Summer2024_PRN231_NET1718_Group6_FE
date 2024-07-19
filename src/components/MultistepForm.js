@@ -344,14 +344,36 @@ const MultiStepForm = ({ id }) => {
   };
 
   const handleCellClick = (date, timeslot) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
     const status = getStatusForCell(date, parseInt(timeslot));
     if (status === "available") {
-      setSelectedSlot({ date: format(date, "yyyy-MM-dd"), timeslot, status });
-    }
-    if (!selectedSlot) {
-      setIsNextDisabled2(true);
-    } else {
-      setIsNextDisabled2(false);
+      if (
+        selectedSlot.date !== formattedDate ||
+        selectedSlot.timeslot !== timeslot
+      ) {
+        // Revert previously chosen slot
+        const previousChosenSlot = document.querySelector(
+          ".badge.bg-gradient-primary"
+        );
+        if (previousChosenSlot) {
+          previousChosenSlot.classList.remove("bg-gradient-primary");
+          previousChosenSlot.classList.add("bg-gradient-success");
+          previousChosenSlot.innerText = "Available";
+        }
+
+        // Update the new chosen slot
+        const newChosenSlot = document.querySelector(
+          `td[onclick="handleCellClick(new Date('${date}'), '${timeslot}')"] .badge`
+        );
+        if (newChosenSlot) {
+          newChosenSlot.classList.remove("bg-gradient-success");
+          newChosenSlot.classList.add("bg-gradient-primary");
+          newChosenSlot.innerText = "Chosen";
+        }
+
+        setSelectedSlot({ date: formattedDate, timeslot, status });
+        setIsNextDisabled2(false);
+      }
     }
   };
 
@@ -480,7 +502,6 @@ const MultiStepForm = ({ id }) => {
                   <h2 class="steps">Step 2/4</h2>
                 </div>
               </div>
-              {/* <ScheduleTable treatment={treatment} /> */}
               <div>
                 <h5>Select a Date</h5>
                 <DatePicker
@@ -523,23 +544,27 @@ const MultiStepForm = ({ id }) => {
                                     date,
                                     parseInt(timeslot)
                                   );
-                                  const cellStyle =
-                                    status === "available"
-                                      ? {
-                                          class: "badge badge-sm badge-success",
-                                        }
-                                      : {};
+                                  const isSelected =
+                                    selectedSlot.date ===
+                                      format(date, "yyyy-MM-dd") &&
+                                    selectedSlot.timeslot === timeslot;
                                   return (
                                     <td
                                       key={colIndex}
                                       class="align-middle text-center text-sm"
-                                      onClick={() => {
-                                        handleCellClick(date, timeslot);
-                                      }}
+                                      onClick={() =>
+                                        handleCellClick(date, timeslot)
+                                      }
                                     >
                                       {status === "available" && (
-                                        <span class="badge badge-sm bg-gradient-success">
-                                          Available
+                                        <span
+                                          class={`badge badge-sm ${
+                                            isSelected
+                                              ? "bg-gradient-primary"
+                                              : "bg-gradient-success"
+                                          }`}
+                                        >
+                                          {isSelected ? "Chosen" : "Available"}
                                         </span>
                                       )}
                                     </td>
@@ -587,7 +612,6 @@ const MultiStepForm = ({ id }) => {
               value="Next"
               onClick={function (e) {
                 getScheduleData();
-                // getDentists();
                 handleNext(e);
               }}
               disabled={isNextDisabled2}
@@ -600,6 +624,7 @@ const MultiStepForm = ({ id }) => {
               onClick={handlePrevious}
             />
           </fieldset>
+
           <fieldset>
             <div class="form-card">
               <div class="row">
