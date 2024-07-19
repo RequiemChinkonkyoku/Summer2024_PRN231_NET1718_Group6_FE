@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 const CustomerNewPatient = () => {
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+  const [yoB, setYoB] = useState("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("");
 
@@ -20,7 +20,7 @@ const CustomerNewPatient = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createNewPatient(name, age, address, gender);
+      await createNewPatient(name, yoB, address, gender);
       navigate("/customer-patients");
     } catch (error) {
       console.error("Login failed", error);
@@ -30,12 +30,12 @@ const CustomerNewPatient = () => {
 
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  const createNewPatient = async (name, age, address, gender) => {
+  const createNewPatient = async (name, yoB, address, gender) => {
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.post("/Patient/add-patient", {
         name,
-        age,
+        yoB,
         address,
         gender,
       });
@@ -72,14 +72,14 @@ const CustomerNewPatient = () => {
                   <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
                       <h6 class="text-white text-capitalize ps-3">
-                        Creating a new patient
+                        Creating a new member
                       </h6>
                     </div>
                   </div>
                   <div class="card-body">
                     <h3>
                       Please enter all the details&nbsp;
-                      <small class="text-muted">of the new patient.</small>
+                      <small class="text-muted">of the new member.</small>
                     </h3>
                     <form
                       role="form"
@@ -96,12 +96,12 @@ const CustomerNewPatient = () => {
                         />
                       </div>
                       <div class="input-group input-group-static mb-4">
-                        <label>Age</label>
+                        <label>Year of Birth</label>
                         <input
                           type="number"
                           class="form-control"
-                          value={age}
-                          onChange={(e) => setAge(e.target.value)}
+                          value={yoB}
+                          onChange={(e) => setYoB(e.target.value)}
                         />
                       </div>
                       <div class="input-group input-group-static mb-4">

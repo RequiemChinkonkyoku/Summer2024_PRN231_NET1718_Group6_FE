@@ -23,6 +23,7 @@ import ManagerDentDetails from "../pages/manager-pages/ManagerDentDetails";
 import ManaNewDent from "../pages/manager-pages/ManaNewDent";
 import CreatePayment from "../pages/customer-pages/CreatePayment";
 import MomoPaymentCallback from "../pages/customer-pages/MomoPaymentCallback";
+import AccountVerification from "../pages/AccountVerification";
 import ManaNewSchedule from "../pages/manager-pages/ManaNewSchedule";
 import ManagerTreatList from "../pages/manager-pages/ManageTreatList";
 import ManagerTreatDetails from "../pages/manager-pages/ManagerTreatDetails";
@@ -46,6 +47,7 @@ const AppRoutes = () => {
           path="/login-dentist"
           element={!token ? <LoginDentist /> : <Navigate to="/" replace />}
         />
+        <Route path="/account-verification" element={<AccountVerification />} />
 
         <Route element={<ProtectedRoute roles={["Dentist"]} />}>
           <Route path="dentist-account" element={<DentistAccount />} />
@@ -66,7 +68,10 @@ const AppRoutes = () => {
           <Route path="mana-new-dent" element={<ManaNewDent />} />
           <Route path="mana-new-schedule" element={<ManaNewSchedule />} />
           <Route path="mana-treat-list" element={<ManagerTreatList />} />
-          <Route path="mana-treat-details/:treatmentId" element={<ManagerTreatDetails />} />
+          <Route
+            path="mana-treat-details/:treatmentId"
+            element={<ManagerTreatDetails />}
+          />
         </Route>
 
         <Route element={<ProtectedRoute roles={["Customer"]} />}>

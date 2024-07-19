@@ -11,7 +11,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 const CusEditPat = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [name, setName] = useState("");
-  const [age, setAge] = useState("");
+  const [yearOfBirth, setYearOfBirth] = useState("");
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("");
   const { patientId } = useParams();
@@ -38,7 +38,7 @@ const CusEditPat = () => {
   useEffect(() => {
     if (patient) {
       setName(patient.name);
-      setAge(patient.age);
+      setYearOfBirth(patient.yearOfBirth);
       setAddress(patient.address);
       setGender(patient.gender);
     }
@@ -47,19 +47,19 @@ const CusEditPat = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updatePatient(name, age, address, gender);
+      await updatePatient(name, yearOfBirth, address, gender);
       navigate("/customer-patients");
     } catch (error) {
       console.error("Submit failed", error);
     }
   };
 
-  const updatePatient = async (name, age, address, gender) => {
+  const updatePatient = async (name, yearOfBirth, address, gender) => {
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       await axios.put(`/Patient/update-patient/${patientId}`, {
         name,
-        age,
+        yearOfBirth,
         address,
         gender,
       });
@@ -134,12 +134,12 @@ const CusEditPat = () => {
                         />
                       </div>
                       <div class="input-group input-group-static mb-4">
-                        <label>Age</label>
+                        <label>Year of Birth</label>
                         <input
                           type="number"
                           class="form-control"
-                          value={age}
-                          onChange={(e) => setAge(e.target.value)}
+                          value={yearOfBirth}
+                          onChange={(e) => setYearOfBirth(e.target.value)}
                         />
                       </div>
                       <div class="input-group input-group-static mb-4">

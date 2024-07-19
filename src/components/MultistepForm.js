@@ -36,7 +36,7 @@ const MultiStepForm = ({ id }) => {
       // Add Class Active
       document
         .querySelectorAll("#progressbar li")
-      [Array.from(steps).indexOf(next_fs)].classList.add("active");
+        [Array.from(steps).indexOf(next_fs)].classList.add("active");
 
       // Show the next fieldset
       next_fs.style.display = "block";
@@ -79,7 +79,7 @@ const MultiStepForm = ({ id }) => {
       // Remove class active
       document
         .querySelectorAll("#progressbar li")
-      [Array.from(steps).indexOf(current_fs)].classList.remove("active");
+        [Array.from(steps).indexOf(current_fs)].classList.remove("active");
 
       // Show the previous fieldset
       previous_fs.style.display = "block";
@@ -108,7 +108,7 @@ const MultiStepForm = ({ id }) => {
       // Remove class active
       document
         .querySelectorAll("#progressbar li")
-      [Array.from(steps).indexOf(current_fs)].classList.remove("active");
+        [Array.from(steps).indexOf(current_fs)].classList.remove("active");
 
       // Show the previous fieldset
       previous_fs.style.display = "block";
@@ -137,7 +137,7 @@ const MultiStepForm = ({ id }) => {
       // Remove class active
       document
         .querySelectorAll("#progressbar li")
-      [Array.from(steps).indexOf(current_fs)].classList.remove("active");
+        [Array.from(steps).indexOf(current_fs)].classList.remove("active");
 
       // Show the previous fieldset
       previous_fs.style.display = "block";
@@ -174,7 +174,7 @@ const MultiStepForm = ({ id }) => {
       .then((response) => {
         setPatientName(response.data.name);
       })
-      .catch((error) => { });
+      .catch((error) => {});
   }, []);
 
   const [treatments, setTreatments] = React.useState([]);
@@ -223,7 +223,7 @@ const MultiStepForm = ({ id }) => {
         .catch((error) => {
           console.error("Error fetching dentists:", error);
         });
-    } catch (e) { }
+    } catch (e) {}
   };
 
   const [dentist, setDentist] = useState("");
@@ -305,7 +305,7 @@ const MultiStepForm = ({ id }) => {
             console.error("Error fetching schedules:", error);
             console.log(treatmentId);
           });
-      } catch (e) { }
+      } catch (e) {}
     }
   }, [treatmentId, token, weekDates, treatment]);
 
@@ -336,7 +336,7 @@ const MultiStepForm = ({ id }) => {
     const schedule = schedules.find(
       (sch) =>
         format(new Date(sch.workDate), "yyyy-MM-dd") ===
-        format(date, "yyyy-MM-dd") &&
+          format(date, "yyyy-MM-dd") &&
         sch.timeSlot === timeslot &&
         sch.status === 1
     );
@@ -344,14 +344,36 @@ const MultiStepForm = ({ id }) => {
   };
 
   const handleCellClick = (date, timeslot) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
     const status = getStatusForCell(date, parseInt(timeslot));
     if (status === "available") {
-      setSelectedSlot({ date: format(date, "yyyy-MM-dd"), timeslot, status });
-    }
-    if (!selectedSlot) {
-      setIsNextDisabled2(true);
-    } else {
-      setIsNextDisabled2(false);
+      if (
+        selectedSlot.date !== formattedDate ||
+        selectedSlot.timeslot !== timeslot
+      ) {
+        // Revert previously chosen slot
+        const previousChosenSlot = document.querySelector(
+          ".badge.bg-gradient-primary"
+        );
+        if (previousChosenSlot) {
+          previousChosenSlot.classList.remove("bg-gradient-primary");
+          previousChosenSlot.classList.add("bg-gradient-success");
+          previousChosenSlot.innerText = "Available";
+        }
+
+        // Update the new chosen slot
+        const newChosenSlot = document.querySelector(
+          `td[onclick="handleCellClick(new Date('${date}'), '${timeslot}')"] .badge`
+        );
+        if (newChosenSlot) {
+          newChosenSlot.classList.remove("bg-gradient-success");
+          newChosenSlot.classList.add("bg-gradient-primary");
+          newChosenSlot.innerText = "Chosen";
+        }
+
+        setSelectedSlot({ date: formattedDate, timeslot, status });
+        setIsNextDisabled2(false);
+      }
     }
   };
 
@@ -378,20 +400,20 @@ const MultiStepForm = ({ id }) => {
         .then((response) => {
           setPatientName(response.data.name);
         })
-        .catch((error) => { });
+        .catch((error) => {});
       axios
         .get(`/Treatment/get-treatment-by-id/${treatment}`)
         .then((response) => {
           setTreatmentName(response.data.name);
         })
-        .catch((error) => { });
+        .catch((error) => {});
       axios
         .get(`/Dentist/get-dentist-by-id/${dentist}`)
         .then((response) => {
           setDentistName(response.data.name);
         })
-        .catch((error) => { });
-    } catch (error) { }
+        .catch((error) => {});
+    } catch (error) {}
   };
 
   return (
@@ -480,7 +502,6 @@ const MultiStepForm = ({ id }) => {
                   <h2 class="steps">Step 2/4</h2>
                 </div>
               </div>
-              {/* <ScheduleTable treatment={treatment} /> */}
               <div>
                 <h5>Select a Date</h5>
                 <DatePicker
@@ -523,23 +544,27 @@ const MultiStepForm = ({ id }) => {
                                     date,
                                     parseInt(timeslot)
                                   );
-                                  const cellStyle =
-                                    status === "available"
-                                      ? {
-                                        class: "badge badge-sm badge-success",
-                                      }
-                                      : {};
+                                  const isSelected =
+                                    selectedSlot.date ===
+                                      format(date, "yyyy-MM-dd") &&
+                                    selectedSlot.timeslot === timeslot;
                                   return (
                                     <td
                                       key={colIndex}
                                       class="align-middle text-center text-sm"
-                                      onClick={() => {
-                                        handleCellClick(date, timeslot);
-                                      }}
+                                      onClick={() =>
+                                        handleCellClick(date, timeslot)
+                                      }
                                     >
                                       {status === "available" && (
-                                        <span class="badge badge-sm bg-gradient-success">
-                                          Available
+                                        <span
+                                          class={`badge badge-sm ${
+                                            isSelected
+                                              ? "bg-gradient-primary"
+                                              : "bg-gradient-success"
+                                          }`}
+                                        >
+                                          {isSelected ? "Chosen" : "Available"}
                                         </span>
                                       )}
                                     </td>
@@ -558,8 +583,9 @@ const MultiStepForm = ({ id }) => {
                         type="text"
                         value={
                           selectedSlot.date && selectedSlot.timeslot
-                            ? `Date: ${selectedSlot.date}, Timeslot: ${timeslotMap[selectedSlot.timeslot]
-                            }, Status: ${selectedSlot.status}`
+                            ? `Date: ${selectedSlot.date}, Timeslot: ${
+                                timeslotMap[selectedSlot.timeslot]
+                              }, Status: ${selectedSlot.status}`
                             : ""
                         }
                         readOnly
@@ -586,7 +612,6 @@ const MultiStepForm = ({ id }) => {
               value="Next"
               onClick={function (e) {
                 getScheduleData();
-                // getDentists();
                 handleNext(e);
               }}
               disabled={isNextDisabled2}
@@ -599,6 +624,7 @@ const MultiStepForm = ({ id }) => {
               onClick={handlePrevious}
             />
           </fieldset>
+
           <fieldset>
             <div class="form-card">
               <div class="row">
@@ -676,8 +702,9 @@ const MultiStepForm = ({ id }) => {
                   readOnly
                   value={
                     selectedSlot.date && selectedSlot.timeslot
-                      ? `Date: ${selectedSlot.date}, Timeslot: ${timeslotMap[selectedSlot.timeslot]
-                      }, Status: ${selectedSlot.status}`
+                      ? `Date: ${selectedSlot.date}, Timeslot: ${
+                          timeslotMap[selectedSlot.timeslot]
+                        }, Status: ${selectedSlot.status}`
                       : ""
                   }
                 />
