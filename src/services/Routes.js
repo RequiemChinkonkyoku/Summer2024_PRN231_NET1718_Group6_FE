@@ -27,6 +27,8 @@ import AccountVerification from "../pages/AccountVerification";
 import ManaNewSchedule from "../pages/manager-pages/ManaNewSchedule";
 import ManagerTreatList from "../pages/manager-pages/ManageTreatList";
 import ManagerTreatDetails from "../pages/manager-pages/ManagerTreatDetails";
+import ManagerNewTreat from "../pages/manager-pages/ManagerNewTreat";
+import ManagerNewProf from "../pages/manager-pages/ManagerNewProf";
 
 const AppRoutes = () => {
   const { token } = useAuth();
@@ -71,6 +73,14 @@ const AppRoutes = () => {
           <Route
             path="mana-treat-details/:treatmentId"
             element={<ManagerTreatDetails />}
+          />
+          <Route
+            path="mana-new-treat"
+            element={<ManagerNewTreat />}
+          />
+          <Route
+            path="mana-new-prof"
+            element={<ManagerNewProf />}
           />
         </Route>
 

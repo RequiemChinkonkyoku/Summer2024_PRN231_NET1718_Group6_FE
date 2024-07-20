@@ -94,7 +94,7 @@ const ManaNewDent = () => {
               <div className="col-12">
                 <div className="card my-4">
                   <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div className="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                    <div className="bg-gradient-success shadow-info border-radius-lg pt-4 pb-3">
                       <h6 className="text-white text-capitalize ps-3">
                         Adding a new dentist
                       </h6>
