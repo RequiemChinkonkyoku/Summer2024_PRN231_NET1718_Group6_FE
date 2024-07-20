@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import axios from "../../axiosConfig";
-
 import Sidebar from "../../components/Sidebar";
 import DashboardHead from "../../components/DashboardHead";
 import NavbarDash from "../../components/NavbarDash";
 import FooterDash from "../../components/FooterDash";
-
-import customerService, { usePatients } from "../../services/CustomerService";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CustomerNewPatient = () => {
   const [name, setName] = useState("");
@@ -19,12 +18,19 @@ const CustomerNewPatient = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Input validation
+    if (!name || !yoB || !address || !gender) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
     try {
       await createNewPatient(name, yoB, address, gender);
       navigate("/customer-patients");
     } catch (error) {
-      console.error("Login failed", error);
-      // Handle login failure (e.g., show a message to the user)
+      console.error("Submission failed", error);
+      toast.error("Submission failed. Please try again.");
     }
   };
 
@@ -35,7 +41,7 @@ const CustomerNewPatient = () => {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await axios.post("/Patient/add-patient", {
         name,
-        yoB,
+        yearOfBirth: yoB,
         address,
         gender,
       });
@@ -50,6 +56,7 @@ const CustomerNewPatient = () => {
     id: "",
     name: "",
   });
+
   const handleChange = (e) => {
     const selectedId = e.target.value;
     const selectedName = e.target.options[e.target.selectedIndex].text;
@@ -61,64 +68,68 @@ const CustomerNewPatient = () => {
   return (
     <div>
       <DashboardHead />
-      <body class="g-sidenav-show  bg-gray-200">
+      <ToastContainer />
+      <body className="g-sidenav-show bg-gray-200">
         <Sidebar />
-        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+        <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
           <NavbarDash />
-          <div class="container-fluid py-4">
-            <div class="row">
-              <div class="col-12">
-                <div class="card my-4">
-                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3">
+          <div className="container-fluid py-4">
+            <div className="row">
+              <div className="col-12">
+                <div className="card my-4">
+                  <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div className="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 className="text-white text-capitalize ps-3">
                         Creating a new member
                       </h6>
                     </div>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <h3>
                       Please enter all the details&nbsp;
-                      <small class="text-muted">of the new member.</small>
+                      <small className="text-muted">of the new member.</small>
                     </h3>
                     <form
                       role="form"
-                      class="text-start"
+                      className="text-start"
                       onSubmit={handleSubmit}
                     >
-                      <div class="input-group input-group-static mb-4">
+                      <div className="input-group input-group-static mb-4">
                         <label>Name</label>
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                         />
                       </div>
-                      <div class="input-group input-group-static mb-4">
+                      <div className="input-group input-group-static mb-4">
                         <label>Year of Birth</label>
                         <input
                           type="number"
-                          class="form-control"
+                          className="form-control"
                           value={yoB}
                           onChange={(e) => setYoB(e.target.value)}
                         />
                       </div>
-                      <div class="input-group input-group-static mb-4">
+                      <div className="input-group input-group-static mb-4">
                         <label>Address</label>
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                         />
                       </div>
-                      <div class="input-group input-group-static mb-4">
-                        <label for="exampleFormControlSelect1" class="ms-0">
+                      <div className="input-group input-group-static mb-4">
+                        <label
+                          htmlFor="exampleFormControlSelect1"
+                          className="ms-0"
+                        >
                           Gender
                         </label>
                         <select
-                          class="form-control"
+                          className="form-control"
                           id="genderSelect"
                           onChange={handleChange}
                           value={gender}
@@ -132,16 +143,16 @@ const CustomerNewPatient = () => {
                           </option>
                         </select>
                       </div>
-                      <div class="row">
-                        <div class="col-6 d-flex align-items-center">
-                          <h6 class="mb-0"></h6>
+                      <div className="row">
+                        <div className="col-6 d-flex align-items-center">
+                          <h6 className="mb-0"></h6>
                         </div>
-                        <div class="col-6 text-end">
+                        <div className="col-6 text-end">
                           <button
                             type="submit"
-                            class="btn bg-gradient-dark mb-0"
+                            className="btn bg-gradient-dark mb-0"
                           >
-                            <i class="material-icons text-sm">add</i>
+                            <i className="material-icons text-sm">add</i>
                             &nbsp;&nbsp;Confirm
                           </button>
                         </div>

@@ -15,6 +15,7 @@ const CustomerAccount = () => {
   const [customer, setCustomer] = React.useState([]);
   const [token, setToken] = useState(localStorage.getItem("token"));
   const navigate = useNavigate();
+  const [error, setError] = useState("");
 
   React.useEffect(() => {
     if (token) {
@@ -27,13 +28,28 @@ const CustomerAccount = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null); // Reset the error state before the request
+
     try {
-      axios.put("/Account/customer-change-password", {
+      const response = await axios.put("/Account/customer-change-password", {
         currentPassword,
         newPassword,
       });
-      window.location.reload();
-    } catch (error) {}
+
+      // If the request is successful, response.status will be 200
+      if (response.status === 200) {
+        window.location.reload();
+      }
+    } catch (error) {
+      // Set the error message based on the error response
+      if (error.response) {
+        // Server responded with a status other than 200 range
+        setError(error.response.data.message || "An error occurred");
+      } else {
+        // Network error or other issues
+        setError("An error occurred");
+      }
+    }
   };
 
   return (

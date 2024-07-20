@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../services/AuthProvider";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import MainHead from "../components/MainHead";
 import NavbarTransparent from "../components/NavbarTransparent";
@@ -19,22 +21,33 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
     try {
       await registerCust(email, password);
       setMessage("A verification email has been sent to your inbox.");
+      toast.success(
+        "Registration successful! Check your email for verification."
+      );
     } catch (error) {
       console.error("Register failed", error);
       setMessage("Registration failed. Please try again.");
+      toast.error("Registration failed. Please try again.");
     }
   };
 
   return (
     <div>
       <MainHead />
-      <body class="sign-in-basic">
+      <ToastContainer />
+      <body className="sign-in-basic">
         <NavbarTransparent />
         <div
-          class="page-header align-items-start min-vh-100"
+          className="page-header align-items-start min-vh-100"
           style={{
             backgroundImage:
               "url(" +
@@ -43,77 +56,80 @@ const Register = () => {
           }}
           loading="lazy"
         >
-          <span class="mask bg-gradient-dark opacity-6"></span>
-          <div class="container my-auto">
-            <div class="row">
-              <div class="col-lg-4 col-md-8 col-12 mx-auto">
-                <div class="card z-index-0 fadeIn3 fadeInBottom">
-                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-info shadow-primary border-radius-lg py-3 pe-1">
-                      <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+          <span className="mask bg-gradient-dark opacity-6"></span>
+          <div className="container my-auto">
+            <div className="row">
+              <div className="col-lg-4 col-md-8 col-12 mx-auto">
+                <div className="card z-index-0 fadeIn3 fadeInBottom">
+                  <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div className="bg-gradient-info shadow-primary border-radius-lg py-3 pe-1">
+                      <h4 className="text-white font-weight-bolder text-center mt-2 mb-0">
                         Register
                       </h4>
-                      <div class="row mt-3">
-                        <div class="col-2 text-center ms-auto"></div>
-                        <div class="col-2 text-center px-1"></div>
-                        <div class="col-2 text-center me-auto"></div>
+                      <div className="row mt-3">
+                        <div className="col-2 text-center ms-auto"></div>
+                        <div className="col-2 text-center px-1"></div>
+                        <div className="col-2 text-center me-auto"></div>
                       </div>
                     </div>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     {message && (
-                      <div class="alert alert-info" role="alert">
+                      <div className="alert alert-info" role="alert">
                         {message}
                       </div>
                     )}
                     <form
                       role="form"
-                      class="text-start"
+                      className="text-start"
                       onSubmit={handleSubmit}
                     >
-                      <div class="input-group input-group-outline my-3">
+                      <div className="input-group input-group-outline my-3">
                         <input
                           type="email"
-                          class="form-control"
+                          className="form-control"
                           placeholder="Email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
-                      <div class="input-group input-group-outline mb-3">
+                      <div className="input-group input-group-outline mb-3">
                         <input
                           type="password"
-                          class="form-control"
+                          className="form-control"
                           placeholder="Password"
                           value={password}
                           onChange={(e) => setPassword(e.target.value)}
                         />
                       </div>
-                      <div class="form-check form-check-info text-start ps-0">
+                      <div className="form-check form-check-info text-start ps-0">
                         <input
-                          class="form-check-input"
+                          className="form-check-input"
                           type="checkbox"
                           id="flexCheckDefault"
                           value=""
                           checked=""
                         />
-                        <label class="form-check-label" for="flexCheckDefault">
+                        <label
+                          className="form-check-label"
+                          htmlFor="flexCheckDefault"
+                        >
                           I agree to the Terms & Conditions
                         </label>
                       </div>
-                      <div class="text-center">
+                      <div className="text-center">
                         <button
                           type="submit"
-                          class="btn bg-gradient-info w-100 my-4 mb-2"
+                          className="btn bg-gradient-info w-100 my-4 mb-2"
                         >
                           Register
                         </button>
                       </div>
-                      <p class="mt-4 text-sm text-center">
+                      <p className="mt-4 text-sm text-center">
                         Already have an account? <t />
                         <Link
                           to="/login"
-                          class="text-info text-gradient font-weight-bold"
+                          className="text-info text-gradient font-weight-bold"
                         >
                           Log in
                         </Link>

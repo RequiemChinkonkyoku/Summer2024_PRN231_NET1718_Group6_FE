@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../axiosConfig";
-
 import Sidebar from "../../components/Sidebar";
 import DashboardHead from "../../components/DashboardHead";
 import NavbarDash from "../../components/NavbarDash";
 import FooterDash from "../../components/FooterDash";
-
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CusEditPat = () => {
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -15,7 +15,7 @@ const CusEditPat = () => {
   const [address, setAddress] = useState("");
   const [gender, setGender] = useState("");
   const { patientId } = useParams();
-  const [patient, setPatient] = useState(null); // Start with null
+  const [patient, setPatient] = useState(null);
 
   const navigate = useNavigate();
 
@@ -29,6 +29,7 @@ const CusEditPat = () => {
         setPatient(response.data);
       } catch (error) {
         console.error("Error fetching data.");
+        toast.error("Error fetching patient data.");
       }
     };
 
@@ -46,11 +47,19 @@ const CusEditPat = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Input validation
+    if (!name || !yearOfBirth || !address || !gender) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
     try {
       await updatePatient(name, yearOfBirth, address, gender);
       navigate("/customer-patients");
     } catch (error) {
       console.error("Submit failed", error);
+      toast.error("Update failed. Please try again.");
     }
   };
 
@@ -71,7 +80,6 @@ const CusEditPat = () => {
 
   const handleChange = (e) => {
     const selectedId = e.target.value;
-    const selectedName = e.target.options[e.target.selectedIndex].text;
     setGender(selectedId);
   };
 
@@ -82,6 +90,7 @@ const CusEditPat = () => {
       navigate("/customer-patients");
     } catch (error) {
       console.error("Delete failed", error);
+      toast.error("Delete failed. Please try again.");
     }
   };
 
@@ -91,6 +100,7 @@ const CusEditPat = () => {
       await axios.delete(`/Patient/delete-patient/${patientId}`);
     } catch (error) {
       console.error("Error fetching data.");
+      throw new Error("Error");
     }
   };
 
@@ -99,64 +109,68 @@ const CusEditPat = () => {
   return (
     <div>
       <DashboardHead />
-      <body class="g-sidenav-show bg-gray-200">
+      <ToastContainer />
+      <body className="g-sidenav-show bg-gray-200">
         <Sidebar />
-        <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
+        <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ps ps--active-y">
           <NavbarDash />
-          <div class="container-fluid py-4">
-            <div class="row">
-              <div class="col-12">
-                <div class="card my-4">
-                  <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                      <h6 class="text-white text-capitalize ps-3">
+          <div className="container-fluid py-4">
+            <div className="row">
+              <div className="col-12">
+                <div className="card my-4">
+                  <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div className="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                      <h6 className="text-white text-capitalize ps-3">
                         Editing patient's info
                       </h6>
                     </div>
                   </div>
-                  <div class="card-body">
+                  <div className="card-body">
                     <h3>
                       Please change the needed details&nbsp;
-                      <small class="text-muted">of this patient.</small>
+                      <small className="text-muted">of this patient.</small>
                     </h3>
                     <form
                       role="form"
-                      class="text-start"
+                      className="text-start"
                       onSubmit={handleSubmit}
                     >
-                      <div class="input-group input-group-static mb-4">
+                      <div className="input-group input-group-static mb-4">
                         <label>Name</label>
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                         />
                       </div>
-                      <div class="input-group input-group-static mb-4">
+                      <div className="input-group input-group-static mb-4">
                         <label>Year of Birth</label>
                         <input
                           type="number"
-                          class="form-control"
+                          className="form-control"
                           value={yearOfBirth}
                           onChange={(e) => setYearOfBirth(e.target.value)}
                         />
                       </div>
-                      <div class="input-group input-group-static mb-4">
+                      <div className="input-group input-group-static mb-4">
                         <label>Address</label>
                         <input
                           type="text"
-                          class="form-control"
+                          className="form-control"
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                         />
                       </div>
-                      <div class="input-group input-group-static mb-4">
-                        <label for="exampleFormControlSelect1" class="ms-0">
+                      <div className="input-group input-group-static mb-4">
+                        <label
+                          htmlFor="exampleFormControlSelect1"
+                          className="ms-0"
+                        >
                           Gender
                         </label>
                         <select
-                          class="form-control"
+                          className="form-control"
                           id="genderSelect"
                           onChange={handleChange}
                           value={gender}
@@ -170,33 +184,33 @@ const CusEditPat = () => {
                           </option>
                         </select>
                       </div>
-                      <div class="row">
-                        <div class="col-6 d-flex align-items-center">
-                          <h6 class="mb-0"></h6>
+                      <div className="row">
+                        <div className="col-6 d-flex align-items-center">
+                          <h6 className="mb-0"></h6>
                         </div>
-                        <div class="col-6 text-end">
+                        <div className="col-6 text-end">
                           <button
                             type="submit"
-                            class="btn bg-gradient-dark mb-0"
+                            className="btn bg-gradient-dark mb-0"
                           >
-                            <i class="material-icons text-sm">add</i>
+                            <i className="material-icons text-sm">add</i>
                             &nbsp;&nbsp;Confirm
                           </button>
                         </div>
                       </div>
                     </form>
                     <br />
-                    <div class="row">
-                      <div class="col-6 d-flex align-items-center">
-                        <h6 class="mb-0"></h6>
+                    <div className="row">
+                      <div className="col-6 d-flex align-items-center">
+                        <h6 className="mb-0"></h6>
                       </div>
-                      <div class="col-6 text-end">
+                      <div className="col-6 text-end">
                         <button
                           onClick={handleDelete}
                           type="submit"
-                          class="btn bg-gradient-danger mb-0"
+                          className="btn bg-gradient-danger mb-0"
                         >
-                          <i class="material-icons text-sm">add</i>
+                          <i className="material-icons text-sm">add</i>
                           &nbsp;&nbsp;Delete
                         </button>
                       </div>
