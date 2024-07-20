@@ -205,12 +205,19 @@ const CusAppDetails = () => {
                               </button>
                             )}
                           </div>
-
-                          <form onSubmit={handleCancel} type="form">
-                            <button type="submit" class="btn bg-gradient-info">
-                              CANCEL
-                            </button>
-                          </form>
+                          {appointment && appointment.status !== 2 && (
+                            <div>
+                              {" "}
+                              <form onSubmit={handleCancel} type="form">
+                                <button
+                                  type="submit"
+                                  class="btn bg-gradient-info"
+                                >
+                                  CANCEL
+                                </button>
+                              </form>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>

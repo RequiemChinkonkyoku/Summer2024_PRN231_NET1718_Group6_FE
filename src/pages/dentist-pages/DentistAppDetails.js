@@ -70,7 +70,7 @@ const DentistAppDetails = () => {
           appId,
         }
       );
-      navigate(0);
+      window.location.reload();
     } catch (error) {}
   };
 
@@ -85,7 +85,7 @@ const DentistAppDetails = () => {
           note,
         }
       );
-      navigate(0);
+      window.location.reload();
     } catch (error) {}
   };
 

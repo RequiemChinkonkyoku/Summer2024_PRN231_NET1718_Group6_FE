@@ -8,6 +8,7 @@ import { format, startOfWeek, addDays } from "date-fns";
 import Schedule from "./Schedule";
 import ScheduleTable from "./Schedule";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const MultiStepForm = ({ id }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -272,7 +273,9 @@ const MultiStepForm = ({ id }) => {
       navigate("/customer-appointment");
     } catch (error) {
       console.error(error);
-      // Handle login failure (e.g., show a message to the user)
+      toast.error(
+        "Create appointment failed. Please reload the page and try again."
+      );
     }
   };
 
