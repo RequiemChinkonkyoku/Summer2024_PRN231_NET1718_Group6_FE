@@ -49,7 +49,7 @@ const ManagerTreatList = () => {
                                                 </div>
                                                 <div class="col-6 text-end">
                                                     <Link
-                                                        to="/mana-new-dent"
+                                                        to="/mana-new-treat"
                                                         class="btn bg-gradient-dark mb-0"
                                                     >
                                                         <i class="material-icons text-sm">add</i>

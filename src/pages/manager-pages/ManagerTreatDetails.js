@@ -7,12 +7,13 @@ import DashboardHead from "../../components/DashboardHead";
 import NavbarDash from "../../components/NavbarDash";
 import FooterDash from "../../components/FooterDash";
 import SidebarMana from "../../components/SidebarMana";
+import reactSelect from "react-select";
 
 const ManagerTreatDetails = () => {
     const { treatmentId } = useParams();
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [treatment, setTreatment] = useState("");
-    const [professions, setProfessions] = useState([]);
+    const [dentists, setDentists] = useState([]);
 
     React.useEffect(() => {
         if (token) {
@@ -21,13 +22,13 @@ const ManagerTreatDetails = () => {
                 setTreatment(response.data);
                 console.log(response.data);
             });
+
+            axios.get(`/Dentist/get-den-with-treat/${treatmentId}`).then((response) => {
+                setDentists(response.data);
+                console.log(response.data);
+            });
         }
     }, []);
-
-    // React.useEffect(() => {
-    //     setProfessions(treatment.professions);
-    //     console.log(professions);
-    // });
 
     return (
         <div>
@@ -82,28 +83,46 @@ const ManagerTreatDetails = () => {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div class="col-md-6">
+                            <div class="col-md-6">
                                 <div class="card h-100">
                                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                         <div class="bg-gradient-success shadow-info border-radius-lg pt-4 pb-3">
                                             <h4 class="text-white text-capitalize ps-3">
-                                                Dentists that provides this treatment
+                                                Dentists that provide this treatment
                                             </h4>
                                         </div>
                                     </div>
+
+                                    <div class="card-header pb-0 p-3">
+                                        <div class="row">
+                                            <div class="col-6 d-flex align-items-center">
+                                                <h6 class="mb-0"></h6>
+                                            </div>
+                                            <div class="col-6 text-end">
+                                                <Link
+                                                    to="/mana-new-prof"
+                                                    class="btn bg-gradient-dark mb-0"
+                                                >
+                                                    <i class="material-icons text-sm">add</i>
+                                                    &nbsp;&nbsp;Add Dentist
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div className="card-body">
                                         <ul class="navbar-nav">
-                                            {professions.length > 0 && (
+                                            {dentists.length > 0 && (
                                                 <li class="nav-item">
                                                     <div>
-                                                        {professions.map((profession) => (
-                                                            <div key={profession.dentistId}>
+                                                        {dentists.map((dentist) => (
+                                                            <div key={dentist.dentistId}>
                                                                 <Link
-                                                                    to={`/dentist/${profession.dentist.dentistId}`}
+                                                                    to={`/manager-dent-details/${dentist.dentistId}`}
                                                                     style={{ display: 'flex', alignItems: 'center' }}
                                                                 >
                                                                     <i class="material-icons opacity-10 text-center me-2 align-items-center">person</i>
-                                                                    <span>{profession.dentist.name}</span>
+                                                                    <span>{dentist.name}</span>
                                                                 </Link>
                                                             </div>
                                                         ))}
@@ -113,7 +132,7 @@ const ManagerTreatDetails = () => {
                                         </ul>
                                     </div>
                                 </div>
-                            </div> */}
+                            </div>
                         </div>
                         <FooterDash />
                     </div>
