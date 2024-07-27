@@ -79,7 +79,7 @@ const AppRoutes = () => {
             element={<ManagerNewTreat />}
           />
           <Route
-            path="mana-new-prof"
+            path="mana-new-prof/:treatmentId"
             element={<ManagerNewProf />}
           />
         </Route>

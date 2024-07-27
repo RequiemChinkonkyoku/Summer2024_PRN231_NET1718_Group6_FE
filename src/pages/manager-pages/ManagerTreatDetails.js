@@ -100,7 +100,7 @@ const ManagerTreatDetails = () => {
                                             </div>
                                             <div class="col-6 text-end">
                                                 <Link
-                                                    to="/mana-new-prof"
+                                                    to={`/mana-new-prof/${treatment.treatmentId}`}
                                                     class="btn bg-gradient-dark mb-0"
                                                 >
                                                     <i class="material-icons text-sm">add</i>

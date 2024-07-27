@@ -15,7 +15,7 @@ const ManagerNewProf = () => {
     const { treatmentId } = useParams();
     const [dentists, setDentists] = useState([]);
     const [token, setToken] = useState(localStorage.getItem("token"));
-    const [selectedDentists, setSelectedDentists] = useState([]);
+    const [selectedDentistId, setSelectedDentistId] = useState(null);
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -25,7 +25,7 @@ const ManagerNewProf = () => {
                 .get("Dentist/get-all-dentists")
                 .then(response => {
                     const dentistOptions = response.data.map(dentist => ({
-                        value: dentist.id,
+                        value: dentist.dentistId,
                         label: dentist.name
                     }));
 
@@ -39,21 +39,23 @@ const ManagerNewProf = () => {
         } catch (error) {
             console.error("Axios error", error);
         }
-    }, []);
+    }, [token]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (selectedDentists.length <= 0) {
+        if (!selectedDentistId) {
             toast.error("At least one dentist must be selected");
             return;
         }
 
         try {
-            const dentistIds = selectedDentists.map(dentist => dentist.value);
+            console.log(treatmentId);
+            console.log(selectedDentistId.value);
+
             const data = {
-                TreatmentId: treatmentId,
-                dentistIds: dentistIds
+                treatmentId: treatmentId,
+                dentistId: selectedDentistId.value
             };
 
             axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -71,6 +73,11 @@ const ManagerNewProf = () => {
             toast.error("There has been an error mapping dentistIds");
             console.error("Error: ", error);
         }
+    }
+
+    const handleChange = (selectedOption) => {
+        console.log(selectedOption);
+        setSelectedDentistId(selectedOption);
     }
 
     return (
@@ -102,9 +109,9 @@ const ManagerNewProf = () => {
                                         >
                                             <div className="input-group input-group-static mb-4">
                                                 <Select
-                                                    isMulti
                                                     options={dentists}
-                                                    onChange={setSelectedDentists}
+                                                    value={selectedDentistId}
+                                                    onChange={handleChange}
                                                 />
                                             </div>
                                             <div className="row">
